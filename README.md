@@ -46,6 +46,7 @@ Before committing code, you should do a few checks:
 
 1. `npm run lint` to check prettier and eslint
 2. `npm run format` to format your code
+3. `npm run test` to test your code against its tests
 
 ### Other commands
 
