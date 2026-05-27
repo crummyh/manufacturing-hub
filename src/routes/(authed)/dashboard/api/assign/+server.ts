@@ -15,7 +15,8 @@ export const PATCH: RequestHandler = async ({ request, locals }) => {
 		error(401, 'Unauthorized');
 	}
 
-	let { partID, userID } = AssignSchema.parse(await request.json());
+	// eslint-disable-next-line prefer-const
+	let { userID, partID } = AssignSchema.parse(await request.json());
 
 	if (!userID) {
 		userID = locals.user.id;

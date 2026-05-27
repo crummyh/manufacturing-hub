@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { goto, invalidateAll } from '$app/navigation';
+	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
 	import { authClient } from '$lib/auth-client.js';
 	import OnshapeNav from '$lib/components/onshape/onshape-nav.svelte';
@@ -24,7 +24,7 @@
 		if (data?.user) {
 			user = data.user;
 		} else if (window.top !== window.self) {
-			goto(`/auth/signin?return=${encodeURIComponent('/onshape/part-studio-panel')}`);
+			goto(resolve(`/auth/signin?return=${encodeURIComponent('/onshape/part-studio-panel')}`));
 		}
 
 		init();

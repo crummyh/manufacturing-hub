@@ -3,8 +3,8 @@
 // Example:
 [
 	{
-		"label": "Format code",
-		"command": "npx prettier . --write"
+		"label": "Check Code",
+		"command": "npm run format; npx eslint"
 		//"args": [],
 		// Env overrides for the command, will be appended to the terminal's environment from the settings.
 		// "env": { "foo": "bar" },

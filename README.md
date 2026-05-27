@@ -1,6 +1,6 @@
 # Manufacturing Hub
 
-An app to track part manufacturing and assembly at FRC Team 4786 Nicolet FEAR 
+An app to track part manufacturing and assembly at FRC Team 4786 Nicolet FEAR
 
 ## Stack and Structure
 
@@ -12,11 +12,11 @@ The app is primarily a SvelteKit full stack web app with a PostgreSQL database f
 
 1. Clone this repo
 2. Install npm
-2. Install `mkcert` and run `mkcert localhost`
-3. Install Docker Compose
-4. Create a `.env` file based off of `.env.example`
-5. Run `npm install`
-6. Create a Onshape App in the Developer Portal with these important settings:
+3. Install `mkcert` and run `mkcert localhost`
+4. Install Docker Compose
+5. Create a `.env` file based off of `.env.example`
+6. Run `npm install`
+7. Create a Onshape App in the Developer Portal with these important settings:
 
 ```
 Name: `FEAR BAGs (DEV)`
@@ -43,10 +43,12 @@ Action URL: `https://localhost:5173/onshape/part-studio-panel?documentId={$docum
 ### Before committing
 
 Before committing code, you should do a few checks:
+
 1. `npm run lint` to check prettier and eslint
 2. `npm run format` to format your code
 
 ### Other commands
+
 See `package.json` for all commands
 
 - `npm run db:studio` - Run Drizzle Studio to interact with the database in the browser
