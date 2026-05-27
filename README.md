@@ -4,7 +4,20 @@ An app to track part manufacturing and assembly at FRC Team 4786 Nicolet FEAR
 
 ## Stack and Structure
 
-The app is primarily a SvelteKit full stack web app with a PostgreSQL database for storage. It also integrates with Onshape.
+- SvelteKit
+- Drizzle ORM
+- PostgreSQL
+- TailwindCSS
+- shadcn-svelte
+- Zod
+- Superforms
+
+Some important paths:
+- `src/lib/components/` - Reusable components for use across the app
+- `src/lib/onshape/` - Helpers for integrating with the Onshape API and panel
+- `src/lib/server/db/` - Database setup, helpers, and schemas
+- `src/routes/(authed)` - Routes that require the user to be authenticated
+- `src/routes/auth` - Routes that relate to the auth flow
 
 ## Local Development
 
