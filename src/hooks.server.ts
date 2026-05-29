@@ -1,20 +1,19 @@
 import { building } from '$app/environment';
 import { ORIGIN } from '$env/static/private';
-import { PUBLIC_ONSHAPE_ENTERPRISE } from '$env/static/public';
 import { auth } from '$lib/server/auth';
 import type { Handle } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
 import { svelteKitHandler } from 'better-auth/svelte-kit';
 
-if (!ORIGIN || !PUBLIC_ONSHAPE_ENTERPRISE)
-	throw new Error('Missing required env vars (ORIGIN or ONSHAPE_ENTERPRISE)');
+if (!ORIGIN) throw new Error('Missing required env vars (ORIGIN)');
 
-const ALLOWED_ORIGINS = [ORIGIN, `https://${PUBLIC_ONSHAPE_ENTERPRISE}.onshape.com`];
 const MUTATING_METHODS = new Set(['POST', 'PUT', 'PATCH', 'DELETE']);
 
 const handleCors: Handle = async ({ event, resolve }) => {
 	const origin = event.request.headers.get('origin');
-	const isAllowed = origin && ALLOWED_ORIGINS.includes(origin);
+	const isAllowed =
+		origin &&
+		(ORIGIN === origin || origin.match('^https:\/\/[a-zA-Z0-9_-]*\.onshape\.com')?.length === 1);
 
 	// Reject cross-origin mutations from unknown origins.
 	if (MUTATING_METHODS.has(event.request.method) && origin && !isAllowed) {
