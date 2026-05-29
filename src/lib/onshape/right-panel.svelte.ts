@@ -1,10 +1,4 @@
-import {
-	checkPostMessage,
-	getOnshapeIdsFromUrl,
-	SelectionType,
-	sendMessage,
-	type OnshapeIds
-} from './core';
+import { OnshapeAppClient, SelectionType } from './core';
 
 export interface Selection {
 	entityType: string;
@@ -14,27 +8,20 @@ export interface Selection {
 	workspaceMicroversionId: string;
 }
 
-export class RightPanelClient {
-	onshapeIds: OnshapeIds;
-	selections: Selection[];
-	requestedSelections: Selection[];
-	requestSelectionId: number;
+export class RightPanelClient extends OnshapeAppClient {
+	selections: Selection[] = $state([]);
+	requestedSelections: Selection[] = $state([]);
+	requestSelectionId: number = $state(0);
 
-	onRequestCompletionCallbacks: ((selections: Selection[]) => void)[];
+	onRequestCompletionCallbacks: ((selections: Selection[]) => void)[] = [];
 
 	constructor(urlParams: URLSearchParams) {
-		this.selections = $state([]);
-		this.requestedSelections = $state([]);
-		this.requestSelectionId = $state(0);
-
-		this.onRequestCompletionCallbacks = [];
-
-		this.onshapeIds = $state(getOnshapeIdsFromUrl(urlParams));
-		sendMessage('applicationInit', this.onshapeIds);
+		super(urlParams);
+		this.sendMessage('applicationInit');
 	}
 
 	handleMessage(event: MessageEvent) {
-		if (!checkPostMessage(event)) {
+		if (!this.checkPostMessage(event)) {
 			return;
 		}
 
@@ -64,11 +51,11 @@ export class RightPanelClient {
 	}
 
 	sendBlueBubble(message: string) {
-		sendMessage('showMessageBubble', this.onshapeIds, { message: message });
+		this.sendMessage('showMessageBubble', { message: message });
 	}
 
 	requestSelection(entityTypeSpecifier: SelectionType[], requiredSelectionCount?: number) {
-		sendMessage('requestSelection', this.onshapeIds, {
+		this.sendMessage('requestSelection', {
 			entityTypeSpecifier: entityTypeSpecifier,
 			messageId: this.requestSelectionId.toString(),
 			requiredSelectionCount: requiredSelectionCount ? requiredSelectionCount : 0
@@ -77,7 +64,7 @@ export class RightPanelClient {
 	}
 
 	stopRequest() {
-		sendMessage('stopRequest', this.onshapeIds);
+		this.sendMessage('stopRequest');
 	}
 
 	onRequestCompletion(fn: (selections: Selection[]) => void): () => void {
