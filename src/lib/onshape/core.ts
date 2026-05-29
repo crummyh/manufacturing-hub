@@ -1,31 +1,18 @@
-import { PUBLIC_ONSHAPE_ENTERPRISE } from '$env/static/public';
-
 export interface OnshapeIds {
 	documentId: string;
 	workspaceId: string;
 	elementId: string;
+	companyId: string;
 }
 
-export function getOnshapeIdsFromUrl(currentURL: string): OnshapeIds {
-	const url = new URL(currentURL);
-	const params = url.searchParams;
-
+export function getOnshapeIdsFromUrl(params: URLSearchParams): OnshapeIds {
 	const documentId = params.get('documentId');
 	const workspaceId = params.get('workspaceId');
 	const elementId = params.get('elementId');
+	const companyId = params.get('companyId');
 
-	if (documentId && workspaceId && elementId) {
-		return { documentId, workspaceId, elementId };
-	}
-
-	const pathMatch = url.pathname.match(/\/documents\/([^/]+)\/(?:w|v|m)\/([^/]+)\/e\/([^/]+)/);
-
-	if (pathMatch) {
-		return {
-			documentId: pathMatch[1],
-			workspaceId: pathMatch[2],
-			elementId: pathMatch[3]
-		};
+	if (documentId && workspaceId && elementId && companyId) {
+		return { documentId, workspaceId, elementId, companyId };
 	}
 
 	throw new Error(
@@ -57,7 +44,7 @@ export function sendMessage(
 			messageName: messageName,
 			...data
 		},
-		`https://${PUBLIC_ONSHAPE_ENTERPRISE}.onshape.com`
+		`https://${ids.companyId}.onshape.com`
 	);
 }
 
@@ -71,4 +58,13 @@ export function checkPostMessage(e: MessageEvent): boolean {
 	} else {
 		return false;
 	}
+}
+
+export enum SelectionType {
+	Vertex = 'VERTEX',
+	Edge = 'EDGE',
+	Face = 'FACE',
+	Body = 'BODY',
+	DegenerateEdge = 'DEGENERATE_EDGE',
+	Unknown = 'UNKNOWN'
 }

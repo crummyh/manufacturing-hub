@@ -1,5 +1,10 @@
-import { checkPostMessage, getOnshapeIdsFromUrl, sendMessage, type OnshapeIds } from './core';
-import { writable, type Writable } from 'svelte/store';
+import {
+	checkPostMessage,
+	getOnshapeIdsFromUrl,
+	SelectionType,
+	sendMessage,
+	type OnshapeIds
+} from './core';
 
 export interface Selection {
 	entityType: string;
@@ -9,81 +14,50 @@ export interface Selection {
 	workspaceMicroversionId: string;
 }
 
-export enum SelectionType {
-	Vertex = 'VERTEX',
-	Edge = 'EDGE',
-	Face = 'FACE',
-	Body = 'BODY',
-	DegenerateEdge = 'DEGENERATE_EDGE',
-	Unknown = 'UNKNOWN'
-}
+export class RightPanelClient {
+	onshapeIds: OnshapeIds;
+	selections: Selection[];
+	requestedSelections: Selection[];
+	requestSelectionId: number;
 
-let onshapeIds: OnshapeIds | undefined = $state();
-export const selections: Writable<Selection[]> = writable([]);
-export const requestedSelections: Writable<Selection[]> = writable([]);
+	constructor(urlParams: URLSearchParams) {
+		this.selections = $state([]);
+		this.requestedSelections = $state([]);
+		this.requestSelectionId = $state(0);
 
-export function getIDs() {
-	return onshapeIds;
-}
-
-let requestSelectionId: number = $state(0);
-
-// Initializes the Onshape app. Make sure this is called
-// on mount rather then on load time.
-export function init() {
-	onshapeIds = getOnshapeIdsFromUrl(window.location.href);
-
-	sendMessage('applicationInit', onshapeIds);
-}
-
-export function sendBlueBubble(message: string) {
-	if (!onshapeIds) {
-		throw new Error('You must run `init` before sending messages');
+		this.onshapeIds = $state(getOnshapeIdsFromUrl(urlParams));
+		sendMessage('applicationInit', this.onshapeIds);
 	}
 
-	sendMessage('showMessageBubble', onshapeIds, { message: message });
-}
+	handleMessage(event: MessageEvent) {
+		if (!checkPostMessage(event)) {
+			return;
+		}
 
-export function handleMessage(event: MessageEvent) {
-	if (!checkPostMessage(event)) {
-		return;
+		switch (event.data.messageName) {
+			case 'SELECTION':
+				this.selections = event.data.selections;
+				break;
+
+			case 'REQUESTED_SELECTION':
+				this.requestedSelections = event.data.selections;
+				break;
+
+			default:
+				console.debug(`${event.data.messageName} is not handled`);
+		}
 	}
 
-	switch (event.data.messageName) {
-		case 'SELECTION':
-			selections.set(event.data.selections);
-			break;
-
-		case 'REQUESTED_SELECTION':
-			requestedSelections.set(event.data.selections);
-			break;
-
-		default:
-			console.debug(`${event.data.messageName} is not handled`);
-	}
-}
-
-export function requestSelection(
-	entityTypeSpecifier: SelectionType[],
-	requiredSelectionCount?: number
-) {
-	if (!onshapeIds) {
-		throw new Error('You must run `init` before sending messages');
+	sendBlueBubble(message: string) {
+		sendMessage('showMessageBubble', this.onshapeIds, { message: message });
 	}
 
-	if (requiredSelectionCount) {
-		sendMessage('requestSelection', onshapeIds, {
+	requestSelection(entityTypeSpecifier: SelectionType[], requiredSelectionCount?: number) {
+		sendMessage('requestSelection', this.onshapeIds, {
 			entityTypeSpecifier: entityTypeSpecifier,
-			messageId: requestSelectionId.toString(),
-			requiredSelectionCount: requiredSelectionCount
+			messageId: this.requestSelectionId.toString(),
+			requiredSelectionCount: requiredSelectionCount ? requiredSelectionCount : 0
 		});
-	} else {
-		sendMessage('requestSelection', onshapeIds, {
-			entityTypeSpecifier: entityTypeSpecifier,
-			messageId: requestSelectionId.toString(),
-			requiredSelectionCount: 0
-		});
+		this.requestSelectionId++;
 	}
-
-	requestSelectionId++;
 }
