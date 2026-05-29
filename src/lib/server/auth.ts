@@ -1,5 +1,11 @@
+import { resolve } from '$app/paths';
 import { getRequestEvent } from '$app/server';
-import { env } from '$env/dynamic/private';
+import {
+	BETTER_AUTH_SECRET,
+	ONSHAPE_CLIENT_ID,
+	ONSHAPE_CLIENT_SECRET,
+	ORIGIN
+} from '$env/static/private';
 import { db } from '$lib/server/db';
 import { redirect } from '@sveltejs/kit';
 import type { OAuth2UserInfo, User } from 'better-auth';
@@ -9,8 +15,8 @@ import { genericOAuth } from 'better-auth/plugins';
 import { sveltekitCookies } from 'better-auth/svelte-kit';
 
 export const auth = betterAuth({
-	baseURL: env.ORIGIN,
-	secret: env.BETTER_AUTH_SECRET,
+	baseURL: ORIGIN,
+	secret: BETTER_AUTH_SECRET,
 	database: drizzleAdapter(db, { provider: 'pg' }),
 	emailAndPassword: { enabled: false },
 	plugins: [
@@ -18,9 +24,9 @@ export const auth = betterAuth({
 			config: [
 				{
 					providerId: 'onshape',
-					clientId: env.ONSHAPE_CLIENT_ID,
-					clientSecret: env.ONSHAPE_CLIENT_SECRET,
-					authorizationUrl: `https://${env.ONSHAPE_ENTERPRISE == 'cad' ? 'oauth' : env.ONSHAPE_ENTERPRISE}.onshape.com/oauth/authorize`,
+					clientId: ONSHAPE_CLIENT_ID,
+					clientSecret: ONSHAPE_CLIENT_SECRET,
+					authorizationUrl: `https://oauth.onshape.com/oauth/authorize`,
 					tokenUrl: 'https://oauth.onshape.com/oauth/token',
 					scopes: ['OAuth2ReadPII', 'OAuth2Read'],
 					getUserInfo: async (tokens) => {
@@ -58,7 +64,27 @@ export const auth = betterAuth({
 	}
 });
 
-export function requireUser(locals: App.Locals): User {
-	if (!locals.user) redirect(303, '/auth/signin');
+/*
+ * Require the user to be signed in. Redirects to `returnTo` after.
+ * Example usage:
+ * ```ts
+ * export const load = async ({ locals, url }) => {
+ *	requireUser(locals, url.pathname);
+ * };
+ * ```
+ */
+export function requireUser(locals: App.Locals, returnTo?: string): User {
+	if (!locals.user) {
+		// If no user
+		let url = resolve('/auth/signin');
+
+		// Add the returnTo route to redirect the user to after auth
+		if (returnTo) {
+			url += '?' + new URLSearchParams({ return: encodeURIComponent(returnTo) }).toString();
+		}
+
+		redirect(303, url);
+	}
+
 	return locals.user;
 }

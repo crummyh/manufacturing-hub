@@ -9,8 +9,9 @@
 		const params = page.url.searchParams;
 		const return_url = params.get('return');
 		if (return_url !== null) {
-			redirectUrl = decodeURIComponent(return_url);
+			redirectUrl = page.url.origin + decodeURIComponent(return_url);
 		}
+		console.log(redirectUrl);
 	});
 </script>
 
