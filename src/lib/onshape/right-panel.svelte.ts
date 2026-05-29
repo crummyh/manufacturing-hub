@@ -20,10 +20,14 @@ export class RightPanelClient {
 	requestedSelections: Selection[];
 	requestSelectionId: number;
 
+	onRequestCompletionCallbacks: ((selections: Selection[]) => void)[];
+
 	constructor(urlParams: URLSearchParams) {
 		this.selections = $state([]);
 		this.requestedSelections = $state([]);
 		this.requestSelectionId = $state(0);
+
+		this.onRequestCompletionCallbacks = [];
 
 		this.onshapeIds = $state(getOnshapeIdsFromUrl(urlParams));
 		sendMessage('applicationInit', this.onshapeIds);
@@ -40,7 +44,18 @@ export class RightPanelClient {
 				break;
 
 			case 'REQUESTED_SELECTION':
-				this.requestedSelections = event.data.selections;
+				if (event.data.status?.statusCode === 'SUCCESS') {
+					this.onRequestCompletionCallbacks.forEach((fn) => fn(event.data.selections));
+				}
+
+				if (event.data.selections) {
+					this.requestedSelections = event.data.selections;
+				} else {
+					this.requestedSelections = [];
+				}
+				break;
+
+			case 'STOPPED_REQUEST':
 				break;
 
 			default:
@@ -59,5 +74,18 @@ export class RightPanelClient {
 			requiredSelectionCount: requiredSelectionCount ? requiredSelectionCount : 0
 		});
 		this.requestSelectionId++;
+	}
+
+	stopRequest() {
+		sendMessage('stopRequest', this.onshapeIds);
+	}
+
+	onRequestCompletion(fn: (selections: Selection[]) => void): () => void {
+		this.onRequestCompletionCallbacks.push(fn);
+		return () => {
+			this.onRequestCompletionCallbacks = this.onRequestCompletionCallbacks.filter(
+				(cb) => cb !== fn
+			);
+		};
 	}
 }
