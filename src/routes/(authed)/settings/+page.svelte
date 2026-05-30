@@ -2,31 +2,32 @@
 	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
 	import CurrentUserNavDropdown from '$lib/components/current-user-nav-dropdown.svelte';
+	import SettingsSection from '$lib/components/settings-section.svelte';
 	import * as Avatar from '$lib/components/ui/avatar/index';
-	import { Badge } from '$lib/components/ui/badge/index';
 	import { Button } from '$lib/components/ui/button/index';
 	import * as Card from '$lib/components/ui/card/index';
 	import { Input } from '$lib/components/ui/input/index';
 	import { Label } from '$lib/components/ui/label/index';
 	import { Separator } from '$lib/components/ui/separator/index';
 	import { Switch } from '$lib/components/ui/switch/index';
+	import * as Table from '$lib/components/ui/table/index';
 	import { userAbbr } from '$lib/utils';
 	import type { PageData } from './$types';
-	import { type LucideIcon } from '@lucide/svelte';
+	import { PencilIcon, Plus, Trash, type LucideIcon } from '@lucide/svelte';
 	import BellIcon from '@lucide/svelte/icons/bell';
+	import CogIcon from '@lucide/svelte/icons/cog';
 	import KeyRoundIcon from '@lucide/svelte/icons/key-round';
-	import PlugIcon from '@lucide/svelte/icons/plug';
 	import UserIcon from '@lucide/svelte/icons/user';
 
 	let { data }: { data: PageData } = $props();
 
-	type SectionId = 'profile' | 'account' | 'notifications' | 'integrations';
+	type SectionId = 'profile' | 'account' | 'notifications' | 'manufacturing';
 
 	const sections: { id: SectionId; label: string; Icon: LucideIcon }[] = [
 		{ id: 'profile', label: 'Profile', Icon: UserIcon },
 		{ id: 'account', label: 'Account', Icon: KeyRoundIcon },
 		{ id: 'notifications', label: 'Notifications', Icon: BellIcon },
-		{ id: 'integrations', label: 'Integrations', Icon: PlugIcon }
+		{ id: 'manufacturing', label: 'Manufacturing', Icon: CogIcon }
 	];
 
 	const activeSection = $derived<SectionId>(
@@ -71,12 +72,7 @@
 		<!-- Section content -->
 		<main class="min-w-0 flex-1">
 			{#if activeSection === 'profile'}
-				<div class="space-y-6">
-					<div>
-						<h2 class="text-lg font-semibold">Profile</h2>
-						<p class="text-sm text-muted-foreground">Manage your public profile information.</p>
-					</div>
-					<Separator />
+				<SettingsSection name="Profile" description="Manage your public profile information.">
 					<Card.Root>
 						<Card.Header>
 							<Card.Title>Avatar</Card.Title>
@@ -102,16 +98,9 @@
 							<Button variant="outline" disabled>Save changes</Button>
 						</Card.Footer>
 					</Card.Root>
-				</div>
+				</SettingsSection>
 			{:else if activeSection === 'account'}
-				<div class="space-y-6">
-					<div>
-						<h2 class="text-lg font-semibold">Account</h2>
-						<p class="text-sm text-muted-foreground">
-							Manage your account credentials and security.
-						</p>
-					</div>
-					<Separator />
+				<SettingsSection name="Account" description="Manage your account credentials and security.">
 					<Card.Root>
 						<Card.Header>
 							<Card.Title>Email</Card.Title>
@@ -131,14 +120,12 @@
 							<Button variant="destructive" disabled>Delete account</Button>
 						</Card.Content>
 					</Card.Root>
-				</div>
+				</SettingsSection>
 			{:else if activeSection === 'notifications'}
-				<div class="space-y-6">
-					<div>
-						<h2 class="text-lg font-semibold">Notifications</h2>
-						<p class="text-sm text-muted-foreground">Choose what you want to be notified about.</p>
-					</div>
-					<Separator />
+				<SettingsSection
+					name="Notifications"
+					description="Choose what you want to be notified about"
+				>
 					<Card.Root>
 						<Card.Header>
 							<Card.Title>Email Notifications</Card.Title>
@@ -159,34 +146,62 @@
 							<Button variant="outline" disabled>Save preferences</Button>
 						</Card.Footer>
 					</Card.Root>
-				</div>
-			{:else if activeSection === 'integrations'}
-				<div class="space-y-6">
-					<div>
-						<h2 class="text-lg font-semibold">Integrations</h2>
-						<p class="text-sm text-muted-foreground">Connect external services to your account.</p>
-					</div>
-					<Separator />
+				</SettingsSection>
+			{:else if activeSection === 'manufacturing'}
+				<SettingsSection name="Manufacturing" description="Configure the part production process.">
 					<Card.Root>
 						<Card.Header>
-							<Card.Title>Onshape</Card.Title>
-							<Card.Description>CAD platform integration for importing parts.</Card.Description>
+							<Card.Title>Materials</Card.Title>
+							<Card.Description>Organization wide possible part materials</Card.Description>
 						</Card.Header>
 						<Card.Content class="flex items-center justify-between">
-							<div class="flex items-center gap-3">
-								<div class="size-8 rounded-md bg-muted"></div>
-								<div>
-									<p class="text-sm font-medium">Onshape</p>
-									<p class="text-sm text-muted-foreground">Signed in as {data.user.email}</p>
-								</div>
-							</div>
-							<Badge variant="secondary">Connected</Badge>
+							<Table.Root>
+								<Table.Header>
+									<Table.Row>
+										<Table.Head>Name</Table.Head>
+										<Table.Head>Onshape Name</Table.Head>
+										<!-- <Table.Head>Edit</Table.Head>
+										<Table.Head>Delete</Table.Head> -->
+									</Table.Row>
+								</Table.Header>
+								<Table.Body>
+									<Table.Row>
+										<Table.Cell class="font-medium">6061</Table.Cell>
+										<Table.Cell>6061 - Aluminum</Table.Cell>
+										<Table.Cell
+											><Button variant="outline" size="icon"><PencilIcon /></Button></Table.Cell
+										>
+										<Table.Cell
+											><Button variant="destructive" size="icon"><Trash /></Button></Table.Cell
+										>
+									</Table.Row>
+									<Table.Row>
+										<Table.Cell class="font-medium">Poly</Table.Cell>
+										<Table.Cell>Polycarbonate</Table.Cell>
+										<Table.Cell
+											><Button variant="outline" size="icon"><PencilIcon /></Button></Table.Cell
+										>
+										<Table.Cell
+											><Button variant="destructive" size="icon"><Trash /></Button></Table.Cell
+										>
+									</Table.Row>
+								</Table.Body>
+								<Table.Footer class="bg-background">
+									<Table.Row>
+										<Table.Cell><Input /></Table.Cell>
+										<Table.Cell><Input /></Table.Cell>
+										<Table.Cell colspan={2} class="ms-auto"
+											><Button size="icon"><Plus /></Button></Table.Cell
+										>
+									</Table.Row>
+								</Table.Footer>
+							</Table.Root>
 						</Card.Content>
 						<Card.Footer>
 							<Button variant="outline" disabled>Disconnect</Button>
 						</Card.Footer>
 					</Card.Root>
-				</div>
+				</SettingsSection>
 			{/if}
 		</main>
 	</div>
