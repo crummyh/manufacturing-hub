@@ -1,4 +1,4 @@
-import { OnshapeAppClient, SelectionType } from './core';
+import { OnshapeAppClient, SelectionType } from './core.svelte';
 
 export interface Selection {
 	entityType: string;
@@ -12,6 +12,7 @@ export class RightPanelClient extends OnshapeAppClient {
 	selections: Selection[] = $state([]);
 	requestedSelections: Selection[] = $state([]);
 	requestSelectionId: number = $state(0);
+	isSelecting = $state(false);
 
 	onRequestCompletionCallbacks: ((selections: Selection[]) => void)[] = [];
 
@@ -33,6 +34,7 @@ export class RightPanelClient extends OnshapeAppClient {
 			case 'REQUESTED_SELECTION':
 				if (event.data.status?.statusCode === 'SUCCESS') {
 					this.onRequestCompletionCallbacks.forEach((fn) => fn(event.data.selections));
+					this.stopRequest();
 				}
 
 				if (event.data.selections) {
@@ -61,10 +63,12 @@ export class RightPanelClient extends OnshapeAppClient {
 			requiredSelectionCount: requiredSelectionCount ? requiredSelectionCount : 0
 		});
 		this.requestSelectionId++;
+		this.isSelecting = true;
 	}
 
 	stopRequest() {
 		this.sendMessage('stopRequest');
+		this.isSelecting = false;
 	}
 
 	onRequestCompletion(fn: (selections: Selection[]) => void): () => void {

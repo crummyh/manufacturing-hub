@@ -1,3 +1,5 @@
+import { SvelteURLSearchParams } from 'svelte/reactivity';
+
 export interface OnshapeIds {
 	documentId: string;
 	workspaceId: string;
@@ -36,7 +38,7 @@ export class OnshapeAppClient {
 	}
 
 	getServer(): string {
-		const params = new URLSearchParams(window.location.search);
+		const params = new SvelteURLSearchParams(window.location.search);
 
 		const serverRaw = params.get('server');
 

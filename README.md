@@ -13,6 +13,7 @@ An app to track part manufacturing and assembly at FRC Team 4786 Nicolet FEAR
 - Superforms
 
 Some important paths:
+
 - `src/lib/components/` - Reusable components for use across the app
 - `src/lib/onshape/` - Helpers for integrating with the Onshape API and panel
 - `src/lib/server/db/` - Database setup, helpers, and schemas

@@ -1,15 +1,17 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
 	import Button from '$lib/components/ui/button/button.svelte';
-	import Plus from '@lucide/svelte/icons/plus';
+	import * as Dialog from '$lib/components/ui/dialog/index.js';
+	import Ban from '@lucide/svelte/icons/ban';
 
 	interface Props {
-		selectionCount: number;
-		useSelection(): void;
+		// selectionCount: number;
+		isSelecting: boolean;
 		createSelection(): void;
+		cancelSelection(): void;
 	}
 
-	let { selectionCount, useSelection, createSelection }: Props = $props();
+	let { createSelection, cancelSelection, isSelecting }: Props = $props();
 </script>
 
 <header class="border-b bg-background">
@@ -19,10 +21,14 @@
 		</div>
 
 		<div class="flex items-center gap-3">
-			{#if selectionCount !== 0}
-				<Button variant="secondary" onclick={useSelection}
-					><Plus />Use {selectionCount} Selections</Button
-				>
+			{#if isSelecting}
+				<!-- <Dialog.Root>
+					<Dialog.Trigger type="button" class={buttonVariants({ variant: 'secondary' })}
+						><Plus />Use {selectionCount} Selections</Dialog.Trigger
+					>
+				</Dialog.Root> -->
+
+				<Button variant="ghost" onclick={cancelSelection}><Ban />Cancel</Button>
 			{:else}
 				<Button onclick={createSelection}>Add Parts</Button>
 			{/if}
