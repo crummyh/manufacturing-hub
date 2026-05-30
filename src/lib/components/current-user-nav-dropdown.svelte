@@ -36,6 +36,7 @@
 		<DropdownMenu.Group>
 			<DropdownMenu.Label>My Account</DropdownMenu.Label>
 			<DropdownMenu.Separator />
+			<DropdownMenu.Item><a href={resolve('/(authed)/settings')}>Settings</a></DropdownMenu.Item>
 			<DropdownMenu.Item onclick={signOut}>Sign out</DropdownMenu.Item>
 		</DropdownMenu.Group>
 	</DropdownMenu.Content>
