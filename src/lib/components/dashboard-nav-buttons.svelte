@@ -33,7 +33,7 @@
 	<Dialog.Trigger type="button" class={buttonVariants({ variant: 'secondary' })}
 		><Plus />New Task</Dialog.Trigger
 	>
-	<ManualPartCreation {manualPartForm} {thicknesses} {materials} {finishes} />
+	<ManualPartCreation {manualPartForm} {thicknesses} {materials} {finishes} bind:isOpen />
 </Dialog.Root>
 
 <Button variant="outline" onclick={refreshCards} disabled={refreshing}>
