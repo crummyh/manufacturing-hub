@@ -71,3 +71,9 @@ See `package.json` for all commands
 ## Todo and Status
 
 This project is not even close to done. All todos and issues are in documented in the Github issues section.
+
+## Common Issues
+
+1. Failing to query the database
+
+This can be for a number of reasons. First check that you have ran `npm run db:start`. If you have, check `docker ps`, and look at the ports section. If it is empty, try `docker compose down` and then `docker compose up -d`.
