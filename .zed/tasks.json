@@ -55,5 +55,18 @@
 		// "save": "none"
 		// Represents the tags for inline runnable indicators, or spawning multiple tasks at once.
 		// "tags": []
+	},
+	{
+		"label": "Start Database",
+		// "command": "npm run db:start & prog2 && fg"
+		"command": "npm run db:start"
+	},
+	{
+		"label": "Start Dev",
+		"command": "npm run dev"
+	},
+	{
+		"label": "Push Database",
+		"command": "npm run db:push"
 	}
 ]
