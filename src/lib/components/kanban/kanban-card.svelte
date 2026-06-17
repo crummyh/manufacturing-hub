@@ -7,13 +7,11 @@
 	import * as Avatar from '../ui/avatar/index';
 	import Badge from '../ui/badge/badge.svelte';
 	import { buttonVariants } from '../ui/button';
-	import Button from '../ui/button/button.svelte';
 	import Separator from '../ui/separator/separator.svelte';
 	import Spinner from '../ui/spinner/spinner.svelte';
+	import KanbanCardDetail from './kanban-card-detail.svelte';
 	import ChevronRight from '@lucide/svelte/icons/chevron-right';
 	import MoveRight from '@lucide/svelte/icons/move-right';
-	import Pencil from '@lucide/svelte/icons/pencil';
-	import Trash from '@lucide/svelte/icons/trash';
 	import { toast } from 'svelte-sonner';
 
 	let assigning = $state(false);
@@ -71,21 +69,7 @@
 						class={buttonVariants({ variant: 'outline', size: 'icon-xs' })}
 						><ChevronRight /></Dialog.Trigger
 					>
-					<Dialog.Content>
-						<Dialog.Header>
-							<Dialog.Title>{part.name}</Dialog.Title>
-							<Dialog.Description>
-								{part.state?.name + ' - '}{part.createdAt?.toLocaleString()}
-							</Dialog.Description>
-						</Dialog.Header>
-						<div>
-							<div></div>
-							<div>
-								<Button variant="destructive"><Trash />Delete</Button>
-								<Button variant="outline"><Pencil />Edit</Button>
-							</div>
-						</div>
-					</Dialog.Content>
+					<KanbanCardDetail {part} />
 				</Dialog.Root>
 			</div>
 			<div class="flex shrink-0 flex-wrap gap-1">

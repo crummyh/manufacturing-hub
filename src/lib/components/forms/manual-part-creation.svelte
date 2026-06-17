@@ -22,6 +22,7 @@
 		isOpen: boolean;
 	}
 
+	// eslint-disable-next-line no-useless-assignment
 	let { manualPartForm, thicknesses, materials, finishes, isOpen = $bindable() }: Props = $props();
 
 	const form = superForm(manualPartForm, {

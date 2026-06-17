@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
 	import Button from '$lib/components/ui/button/button.svelte';
-	import * as Dialog from '$lib/components/ui/dialog/index.js';
+	// import * as Dialog from '$lib/components/ui/dialog/index.js';
 	import Ban from '@lucide/svelte/icons/ban';
 
 	interface Props {

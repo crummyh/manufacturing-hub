@@ -13,7 +13,7 @@ const handleCors: Handle = async ({ event, resolve }) => {
 	const origin = event.request.headers.get('origin');
 	const isAllowed =
 		origin &&
-		(ORIGIN === origin || origin.match('^https:\/\/[a-zA-Z0-9_-]*\.onshape\.com')?.length === 1);
+		(ORIGIN === origin || origin.match('^https:[a-zA-Z0-9_-]*.onshape.com')?.length === 1);
 
 	// Reject cross-origin mutations from unknown origins.
 	if (MUTATING_METHODS.has(event.request.method) && origin && !isAllowed) {
