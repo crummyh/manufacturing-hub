@@ -11,7 +11,6 @@
 		if (return_url !== null) {
 			redirectUrl = page.url.origin + decodeURIComponent(return_url);
 		}
-		console.log(redirectUrl);
 	});
 </script>
 
