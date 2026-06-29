@@ -2,6 +2,7 @@
 	import * as Dialog from '$lib/components/ui/dialog/index.js';
 	import type { KanbanPart } from '$lib/server/db/helpers/kanban';
 	import Button from '../ui/button/button.svelte';
+	import UserAvatar from '../user_avatar.svelte';
 	import Pencil from '@lucide/svelte/icons/pencil';
 	import Trash from '@lucide/svelte/icons/trash';
 
@@ -32,6 +33,17 @@
 			<div>
 				<div class="text-xs text-muted-foreground">Finish</div>
 				<div>{part.finish ? part.finish.name : 'None'}</div>
+			</div>
+			<div>
+				<div class="text-xs text-muted-foreground">Assignee</div>
+				<div class="flex gap-1.5 items-center">
+					{#if part.assignedTo}
+						<UserAvatar name={part.assignedTo.name} image={part.assignedTo.image} class="h-5 w-5" />
+						<div>{part.assignedTo.name}</div>
+					{:else}
+						None
+					{/if}
+				</div>
 			</div>
 		</div>
 		<div class="mt-4">
