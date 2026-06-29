@@ -10,7 +10,8 @@ import z from 'zod';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	const user = locals.user;
-	return { user };
+	const materials = await db.select().from(material);
+	return { user, materials };
 };
 
 const newMaterialSchema = z.object({
