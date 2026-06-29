@@ -43,7 +43,8 @@ export const thickness = pgTable('thickness', {
 
 export const material = pgTable('material', {
 	id: serial('id').primaryKey(),
-	name: text('name').notNull()
+	name: text('name').notNull(),
+	onshapeName: text('onshape_name')
 });
 
 export const finish = pgTable('finish', {

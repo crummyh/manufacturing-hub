@@ -15,6 +15,7 @@
 	let isOpen = $state(false);
 	let isLoadingData = $state(false);
 	let partName: string | undefined = $state(undefined);
+	let onshapeMaterial: string | undefined = $state(undefined);
 
 	onMount(() => {
 		onshapeClient = new RightPanelClient(page.url.searchParams);
@@ -44,6 +45,7 @@
 			const data = await response.json();
 			console.log(data);
 			partName = data.properties.find((i) => i.name === 'Name').value;
+			onshapeMaterial = data.properties.find((i) => i.name === 'Material').value.id;
 			isLoadingData = false;
 		} else {
 			console.error('Too many or too few selections');
@@ -70,6 +72,7 @@
 		bind:isOpen
 		{isLoadingData}
 		defaultName={partName}
+		{onshapeMaterial}
 	/>
 </Dialog.Root>
 

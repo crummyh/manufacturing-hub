@@ -9,6 +9,7 @@
 	import Input from '../ui/input/input.svelte';
 	import Spinner from '../ui/spinner/spinner.svelte';
 	import Switch from '../ui/switch/switch.svelte';
+	import { untrack } from 'svelte';
 	import { toast } from 'svelte-sonner';
 	import { superForm, type SuperValidated } from 'sveltekit-superforms';
 	import { zod4Client } from 'sveltekit-superforms/adapters';
@@ -22,6 +23,7 @@
 		isOpen: boolean;
 		isLoadingData: boolean;
 		defaultName?: string;
+		onshapeMaterial?: string;
 	}
 
 	let {
@@ -32,12 +34,23 @@
 		// eslint-disable-next-line no-useless-assignment
 		isOpen = $bindable(),
 		isLoadingData,
-		defaultName
+		defaultName,
+		onshapeMaterial
 	}: Props = $props();
 
 	$effect(() => {
-		if (!isLoadingData && defaultName && !$formData.name) {
-			$formData.name = defaultName;
+		if (!isLoadingData) {
+			if (defaultName && !untrack(() => $formData.name)) {
+				$formData.name = defaultName;
+			}
+			if (onshapeMaterial && !untrack(() => $formData.material)) {
+				const materialId = materials.find(
+					(i) => i.onshapeName !== null && i.onshapeName === onshapeMaterial
+				)?.id;
+				if (materialId) {
+					$formData.material = materialId;
+				}
+			}
 		}
 	});
 
