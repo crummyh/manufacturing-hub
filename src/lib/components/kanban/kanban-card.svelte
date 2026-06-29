@@ -4,6 +4,7 @@
 	import * as Dialog from '$lib/components/ui/dialog/index.js';
 	import type { KanbanPart } from '$lib/server/db/helpers/kanban';
 	import { userAbbr } from '$lib/utils';
+	import { onMount } from 'svelte';
 	import * as Avatar from '../ui/avatar/index';
 	import Badge from '../ui/badge/badge.svelte';
 	import { buttonVariants } from '../ui/button';
@@ -59,7 +60,7 @@
 		aria-hidden="true"
 	></div>
 
-	<Card.Root class="gap-1">
+	<Card.Root class="gap-1 {part.critical ? 'border-2 border-secondary' : ''}">
 		<Card.Header class="pb-2">
 			<div class="flex items-center justify-between">
 				<span class="text-sm leading-snug font-semibold">{part.name}</span>

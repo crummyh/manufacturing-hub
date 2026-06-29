@@ -54,6 +54,7 @@ export const actions: Actions = {
 			thicknessId: form.data.thickness,
 			materialId: form.data.material,
 			finishId: form.data.finish,
+			critical: form.data.critical,
 			order: '0',
 			stateId: firstStateId
 		});
