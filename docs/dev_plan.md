@@ -33,6 +33,8 @@ User stories let us look at what users might want to do, then create features to
 * As a project lead, I want to flag parts as critical so manufacturers prioritize them.
 * As a part assignee, I want to be notified when I am assigned to a part so I know what to focus on.
 * As an advisory mentor, I want to be able to manage users' roles so I can set their permissions
+* As a designer, I want to be able to bulk add parts to the system so I can import an entire subsystem at once
+* As a mobile user, I want a list view to be available so I can navigate the main page easier.
 
 ### Core Workflow
 
@@ -79,6 +81,7 @@ erDiagram
     string id PK
     string name
     int quantity
+    boolean archived
     string assignee_id FK
     string project_id FK
   }
@@ -115,7 +118,7 @@ erDiagram
   USER |o..|| PART_STEP : "completes"
   STEP |o..|| PART_STEP : "defines type"
   PART ||--}o PART_STEP : "has steps"
-  PROJECT |o..o{ PART : contains
+  PROJECT }o..o{ PART : contains
   TEMPLATE }o..|| TEMPLATE_STEP : "has steps"
   STEP |o..|| TEMPLATE_STEP : "defines step"
 ```
