@@ -60,7 +60,7 @@ What features need to be built:
 
 * Basic user system
 * Manual part creation
-* Part visualization
+* Part visualization (kanban board)
 * Basic project system
 * "Manufacturing" kanban view
 
