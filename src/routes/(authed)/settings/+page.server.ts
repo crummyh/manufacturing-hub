@@ -1,7 +1,7 @@
 import { resolve } from '$app/paths';
 import { requireUser } from '$lib/server/auth';
 import { db } from '$lib/server/db';
-import { material } from '$lib/server/db/schema';
+import { finish, material, thickness } from '$lib/server/db/schema';
 import type { Actions, PageServerLoad } from './$types';
 import { fail } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms';
@@ -11,7 +11,9 @@ import z from 'zod';
 export const load: PageServerLoad = async ({ locals }) => {
 	const user = locals.user;
 	const materials = await db.select().from(material);
-	return { user, materials };
+	const finishes = await db.select().from(finish);
+	const thicknesses = await db.select().from(thickness);
+	return { user, materials, finishes, thicknesses };
 };
 
 const newMaterialSchema = z.object({
