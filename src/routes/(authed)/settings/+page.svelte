@@ -14,7 +14,11 @@
 	import KeyRoundIcon from '@lucide/svelte/icons/key-round';
 	import UserIcon from '@lucide/svelte/icons/user';
 
-	let { data }: { data: PageData } = $props();
+	interface Props {
+		data: PageData;
+	}
+
+	let { data }: Props = $props();
 
 	type SectionId = 'profile' | 'account' | 'notifications' | 'manufacturing';
 
@@ -67,13 +71,13 @@
 		<!-- Section content -->
 		<main class="min-w-0 flex-1">
 			{#if activeSection === 'profile'}
-				<Profile data={data} />
+				<Profile {data} />
 			{:else if activeSection === 'account'}
-				<Account data={data} />
+				<Account {data} />
 			{:else if activeSection === 'notifications'}
-				<Notifications data={data} />
+				<Notifications {data} />
 			{:else if activeSection === 'manufacturing'}
-				<Manufacturing data={data} />
+				<Manufacturing {data} />
 			{/if}
 		</main>
 	</div>

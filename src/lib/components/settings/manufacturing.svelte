@@ -1,13 +1,48 @@
 <script lang="ts">
+	import {
+		newFinishSchema,
+		newMaterialSchema,
+		newThicknessSchema,
+		type NewFinishSchema,
+		type NewMaterialSchema,
+		type NewThicknessSchema
+	} from '$lib/zod-schemas';
 	import type { PageData } from '../../../routes/(authed)/settings/$types';
 	import SettingsSection from '../settings-section.svelte';
 	import { Button } from '../ui/button';
 	import * as Card from '../ui/card';
+	import * as Form from '../ui/form';
 	import { Input } from '../ui/input';
 	import * as Table from '../ui/table';
 	import { PencilIcon, Plus, Trash } from '@lucide/svelte';
+	import { superForm, type SuperValidated } from 'sveltekit-superforms';
+	import { zod4Client } from 'sveltekit-superforms/adapters';
+	import type { Infer } from 'zod';
 
-	let { data }: { data: PageData } = $props();
+	interface Props {
+		data: PageData;
+	}
+
+	let { data }: Props = $props();
+
+	// svelte-ignore state_referenced_locally
+	const newMaterialForm = superForm(data.newMaterialForm, {
+		validators: zod4Client(newMaterialSchema)
+	});
+
+	// svelte-ignore state_referenced_locally
+	const newFinishForm = superForm(data.newFinishForm, {
+		validators: zod4Client(newFinishSchema)
+	});
+
+	// svelte-ignore state_referenced_locally
+	const newThicknessForm = superForm(data.newThicknessForm, {
+		validators: zod4Client(newThicknessSchema)
+	});
+
+	const { form: newMaterialData, enhance: newMaterialEnhance } = newMaterialForm;
+	const { form: newFinishData, enhance: newFinishEnhance } = newFinishForm;
+	const { form: newThicknessData, enhance: newThicknessEnhance } = newThicknessForm;
 </script>
 
 <SettingsSection name="Manufacturing" description="Configure the part production process.">
@@ -40,13 +75,33 @@
 						</Table.Row>
 					{/each}
 				</Table.Body>
-				<Table.Footer class="bg-background">
-					<Table.Row>
-						<Table.Cell><Input /></Table.Cell>
-						<Table.Cell colspan={2}><Input /></Table.Cell>
-						<Table.Cell><Button size="icon"><Plus /></Button></Table.Cell>
-					</Table.Row>
-				</Table.Footer>
+				<form action="POST" use:newMaterialEnhance>
+					<Table.Footer class="bg-background">
+						<Table.Row>
+							<Table.Cell>
+								<Form.Field form={newMaterialForm} name="name">
+									<Form.Control>
+										{#snippet children({ props })}
+											<Input {...props} bind:value={$newMaterialData.name} />
+										{/snippet}
+									</Form.Control>
+									<Form.FieldErrors />
+								</Form.Field>
+							</Table.Cell>
+							<Table.Cell colspan={2}>
+								<Form.Field form={newMaterialForm} name="name">
+									<Form.Control>
+										{#snippet children({ props })}
+											<Input {...props} bind:value={$newMaterialData.onshapeName} />
+										{/snippet}
+									</Form.Control>
+									<Form.FieldErrors />
+								</Form.Field></Table.Cell
+							>
+							<Table.Cell><Form.Button size="icon"><Plus /></Form.Button></Table.Cell>
+						</Table.Row>
+					</Table.Footer>
+				</form>
 			</Table.Root>
 		</Card.Content>
 	</Card.Root>

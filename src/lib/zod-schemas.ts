@@ -21,3 +21,23 @@ export const onshapePartSchema = z.object({
 });
 
 export type OnshapePartSchema = typeof onshapePartSchema;
+
+export const newMaterialSchema = z.object({
+	name: z.string().min(1),
+	onshapeName: z.string().optional()
+});
+
+export type NewMaterialSchema = typeof newMaterialSchema;
+
+export const newFinishSchema = z.object({
+	name: z.string().min(1)
+});
+
+export type NewFinishSchema = typeof newFinishSchema;
+
+export const newThicknessSchema = z.object({
+	name: z.string().min(1),
+	onshapeName: z.string().optional()
+});
+
+export type NewThicknessSchema = typeof newThicknessSchema;
