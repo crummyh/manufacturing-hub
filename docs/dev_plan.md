@@ -73,43 +73,48 @@ erDiagram
   }
 
   PROJECT {
-    string id PK
+    integer id PK
     string name
   }
 
   PART {
-    string id PK
+    integer id PK
     string name
     int quantity
     boolean archived
     string assignee_id FK
-    string project_id FK
+    integer project_id FK
   }
 
   STEP {
-    string id PK
+    integer id PK
     string name
   }
 
   PART_STEP {
-    string id PK
-    string part_id FK
-    string step_id FK
+    integer id PK
+    integer part_id FK
+    integer step_id FK
     string order "uses fractional indexing"
     boolean completed
     string completed_by FK
     timestamp completed_at
   }
 
+  STATE {
+    integer id PK
+    string name
+  }
+
   TEMPLATE {
-    string id PK
+    integer id PK
     string name
   }
 
   TEMPLATE_STEP {
-    string id PK
-    string template_id FK
-    string step_id FK
+    integer id PK
+    integer template_id FK
+    integer step_id FK
     string order "uses fractional indexing"
     boolean optional
   }
@@ -118,7 +123,16 @@ erDiagram
   USER |o..|| PART_STEP : "completes"
   STEP |o..|| PART_STEP : "defines type"
   PART ||--}o PART_STEP : "has steps"
-  PROJECT }o..o{ PART : contains
+  PROJECT |o..o{ PART : "contains"
+  STATE ||..o{ PART : "is at"
   TEMPLATE }o..|| TEMPLATE_STEP : "has steps"
   STEP |o..|| TEMPLATE_STEP : "defines step"
 ```
+
+#### Views
+
+* Signin
+* Main Board
+* Per State Tables
+* Part Details
+* New Part Creation
