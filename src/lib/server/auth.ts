@@ -80,7 +80,7 @@ export function requireUser(locals: App.Locals, returnTo?: string): User {
 
 		// Add the returnTo route to redirect the user to after auth
 		if (returnTo) {
-			url += '?' + new URLSearchParams({ return: encodeURIComponent(returnTo) }).toString();
+			url += '?' + new URLSearchParams({ return: returnTo }).toString();
 		}
 
 		redirect(303, url);
