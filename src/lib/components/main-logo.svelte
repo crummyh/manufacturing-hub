@@ -1,1 +1,1 @@
-<div class="bg-primary w-8 h-8"></div>
+<div class="bg-primary size-8 rounded-lg"></div>

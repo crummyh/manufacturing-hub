@@ -1,8 +1,9 @@
 <script lang="ts">
 	import * as Avatar from '$lib/components/ui/avatar';
 	import { userAbbr } from '$lib/utils';
+	import type { ComponentProps } from 'svelte';
 
-	interface Props {
+	interface Props extends ComponentProps<typeof Avatar.Root> {
 		name: string;
 		src?: string | null;
 	}
