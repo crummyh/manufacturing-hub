@@ -3,6 +3,7 @@ import { user } from './auth.schema';
 import { relations } from 'drizzle-orm';
 import { pgTable, integer, text, timestamp, boolean } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema, createUpdateSchema } from 'drizzle-zod';
+import type z from 'zod';
 
 export * from './auth.schema';
 
@@ -11,6 +12,15 @@ export * from './auth.schema';
  * 1. The actual Drizzle schema
  * 2. A set of relations
  * 3. A inferred Zod schema for selection, insertion, and updating
+ * 4. A set of generated types
+ *
+ * These types should look like this by default:
+ * export type PartSelect = z.infer<typeof partSelectSchema>
+ *
+ * Or this if you need to override fields:
+ * export interface PartSelect extends z.infer<typeof partSelectSchema> {
+ *  name: string
+ * }
  */
 
 // Parts
@@ -61,6 +71,10 @@ export const partUpdateSchema = createUpdateSchema(part, {
 	projectId: sqidInput.optional()
 });
 
+export type PartSelect = z.infer<typeof partSelectSchema>;
+export type PartInsert = z.infer<typeof partInsertSchema>;
+export type PartUpdate = z.infer<typeof partUpdateSchema>;
+
 // Projects
 
 export const project = pgTable('projects', {
@@ -84,6 +98,10 @@ export const projectInsertSchema = createInsertSchema(project, {
 export const projectUpdateSchema = createUpdateSchema(project, {
 	name: (schema) => schema.max(128).min(1)
 });
+
+export type ProjectSelect = z.infer<typeof projectSelectSchema>;
+export type ProjectInsert = z.infer<typeof projectInsertSchema>;
+export type ProjectUpdate = z.infer<typeof projectUpdateSchema>;
 
 // States
 
@@ -109,6 +127,10 @@ export const stateUpdateSchema = createUpdateSchema(state, {
 	name: (schema) => schema.max(128).min(1)
 });
 
+export type StateSelect = z.infer<typeof stateSelectSchema>;
+export type StateInsert = z.infer<typeof stateInsertSchema>;
+export type StateUpdate = z.infer<typeof stateUpdateSchema>;
+
 // Steps
 
 export const step = pgTable('steps', {
@@ -133,6 +155,10 @@ export const stepInsertSchema = createInsertSchema(step, {
 export const stepUpdateSchema = createUpdateSchema(step, {
 	name: (schema) => schema.max(128).min(1)
 });
+
+export type StepSelect = z.infer<typeof stepSelectSchema>;
+export type StepInsert = z.infer<typeof stepInsertSchema>;
+export type StepUpdate = z.infer<typeof stepUpdateSchema>;
 
 // Part Steps
 
@@ -182,6 +208,10 @@ export const partStepUpdateSchema = createUpdateSchema(partStep, {
 	completedAt: (schema) => schema.max(new Date())
 });
 
+export type PartStepSelect = z.infer<typeof partStepSelectSchema>;
+export type PartStepInsert = z.infer<typeof partStepInsertSchema>;
+export type PartStepUpdate = z.infer<typeof partStepUpdateSchema>;
+
 // Templates
 
 export const template = pgTable('templates', {
@@ -205,6 +235,10 @@ export const templateInsertSchema = createInsertSchema(template, {
 export const templateUpdateSchema = createUpdateSchema(template, {
 	name: (schema) => schema.max(128).min(1)
 });
+
+export type TemplateSelect = z.infer<typeof templateSelectSchema>;
+export type TemplateInsert = z.infer<typeof templateInsertSchema>;
+export type TemplateUpdate = z.infer<typeof templateUpdateSchema>;
 
 // Template Steps
 
@@ -249,3 +283,7 @@ export const templateStepUpdateSchema = createUpdateSchema(templateStep, {
 	stepId: sqidInput.optional(),
 	order: (schema) => schema.max(256).min(0)
 });
+
+export type TemplateStepSelect = z.infer<typeof templateStepSelectSchema>;
+export type TemplateStepInsert = z.infer<typeof templateStepInsertSchema>;
+export type TemplateStepUpdate = z.infer<typeof templateStepUpdateSchema>;
