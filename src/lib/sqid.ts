@@ -22,6 +22,7 @@ export const sqidOutput = z.number().transform((val, ctx) => {
 			message: 'not a valid id',
 			input: val
 		});
+		return z.NEVER;
 	}
 });
 
@@ -35,5 +36,6 @@ export const sqidInput = z.string().transform((val, ctx) => {
 			message: 'not a valid id',
 			input: val
 		});
+		return z.NEVER;
 	}
 });
