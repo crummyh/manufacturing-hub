@@ -132,8 +132,9 @@ erDiagram
 
 #### Views
 
-- Signin
-- Main Board
-- Per State Tables
-- Part Details
-- New Part Creation
+- Signin (`/auth/signin`)
+- Main Kanban Board (each state is a column) (`/overview`) with filtering
+- Table View (`/table`) with filtering
+- Part Details (`/part/[partId]`)
+- New Part Creation (Popup?)
+- Project management (`/projects`)
