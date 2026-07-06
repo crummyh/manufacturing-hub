@@ -24,3 +24,12 @@ export function userAbbr(name: string): string {
 
 	return matches.join('');
 }
+
+/*
+ * Gets the message from an `Error` or lets the user know it is unknown
+ */
+export function getErrorMessage(e: unknown): string {
+	if (e instanceof Error) return e.message;
+	if (typeof e === 'string') return e;
+	return 'An unknown error occurred';
+}

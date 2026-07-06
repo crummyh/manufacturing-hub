@@ -29,7 +29,8 @@ export default defineConfig(
 		files: ['**/*.svelte', '**/*.svelte.ts', '**/*.svelte.js'],
 		languageOptions: {
 			parserOptions: {
-				projectService: true,
+				// Dissabled to save memory
+				projectService: false,
 				extraFileExtensions: ['.svelte'],
 				parser: ts.parser,
 				svelteConfig

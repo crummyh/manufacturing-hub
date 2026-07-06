@@ -8,7 +8,7 @@
 </script>
 
 <script lang="ts">
-	import ChevronDownIcon from '@lucide/svelte/icons/chevron-down';
+	import { ChevronDownIcon } from '@lucide/svelte';
 	import { NavigationMenu as NavigationMenuPrimitive } from 'bits-ui';
 
 	let {

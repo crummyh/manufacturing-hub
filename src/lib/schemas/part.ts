@@ -1,0 +1,14 @@
+import { sqidInputClient } from '$lib/sqid';
+import { partNameRule, partQuantityRule } from './rules/part';
+import { z } from 'zod';
+
+export const partInsertSchemaClient = z.object({
+	name: partNameRule(z.string()),
+	quantity: partQuantityRule(z.number()),
+	critical: z.boolean().default(false),
+	assigneeId: sqidInputClient.optional().nullable(),
+	projectId: sqidInputClient.optional().nullable()
+});
+
+export type PartInsertClient = z.infer<typeof partInsertSchemaClient>;
+export type PartInsertSchemaClient = typeof partInsertSchemaClient;

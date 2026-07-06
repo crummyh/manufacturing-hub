@@ -6,10 +6,7 @@
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import { useSidebar } from '$lib/components/ui/sidebar/index.js';
 	import UserAvatar from '../user-avatar.svelte';
-	import ChevronDown from '@lucide/svelte/icons/chevron-down';
-	import LogOut from '@lucide/svelte/icons/log-out';
-	import Moon from '@lucide/svelte/icons/moon';
-	import Sun from '@lucide/svelte/icons/sun';
+	import { ChevronDown, LogOut, Moon, Sun } from '@lucide/svelte';
 	import type { User } from 'better-auth';
 	import { toggleMode } from 'mode-watcher';
 

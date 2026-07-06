@@ -1,36 +1,47 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
+	import { page } from '$app/state';
+	import type { RouteId } from '$app/types';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
-	import Folder from '@lucide/svelte/icons/folder';
-	import SquareKanban from '@lucide/svelte/icons/square-kanban';
-	import Table from '@lucide/svelte/icons/table';
+	import { Folder, SquareKanban, Table, type LucideProps } from '@lucide/svelte';
+	import type { Component } from 'svelte';
 
-	const navItem = [
+	// Todo: Highlight active page better
+
+	const navItem: {
+		name: string;
+		url: RouteId;
+		icon: Component<LucideProps>;
+		order: number;
+	}[] = [
 		{
 			name: 'Overview',
-			url: resolve('/(authed)/(app)/overview'),
-			icon: SquareKanban
+			url: '/(authed)/(app)/overview',
+			icon: SquareKanban,
+			order: 1
 		},
 		{
 			name: 'Table',
-			url: resolve('/(authed)/(app)/table'),
-			icon: Table
+			url: '/(authed)/(app)/table',
+			icon: Table,
+			order: 2
 		},
 		{
 			name: 'Projects',
-			url: resolve('/(authed)/(app)/projects'),
-			icon: Folder
+			url: '/(authed)/(app)/projects',
+			icon: Folder,
+			order: 3
 		}
 	];
 </script>
 
 <Sidebar.Group class="group-data-[collapsible=icon]:hidden">
 	<Sidebar.Menu>
-		{#each navItem as item (item.name)}
+		{#each navItem as item (item.order)}
 			<Sidebar.MenuItem>
-				<Sidebar.MenuButton>
+				<Sidebar.MenuButton isActive={page.route.id === item.url}>
 					{#snippet child({ props })}
-						<a href={item.url} {...props}>
+						<a href={resolve(item.url)} {...props}>
 							<item.icon />
 							<span>{item.name}</span>
 						</a>

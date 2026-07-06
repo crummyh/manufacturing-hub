@@ -9,11 +9,10 @@
 	interface Props extends ComponentProps<typeof Sidebar.Root> {
 		user: User;
 	}
-
-	let { user, ...restProps }: Props = $props();
+	let { user, ref = $bindable(null), ...restProps }: Props = $props();
 </script>
 
-<Sidebar.Root variant="sidebar" collapsible="none" class="h-screen" {...restProps}>
+<Sidebar.Root bind:ref variant="sidebar" collapsible="offcanvas" class="h-screen" {...restProps}>
 	<Sidebar.Header>
 		<Sidebar.Menu>
 			<Sidebar.MenuItem>

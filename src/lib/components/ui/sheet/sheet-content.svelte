@@ -7,7 +7,7 @@
 	import { cn, type WithoutChildrenOrChild } from '$lib/utils.js';
 	import SheetOverlay from './sheet-overlay.svelte';
 	import SheetPortal from './sheet-portal.svelte';
-	import XIcon from '@lucide/svelte/icons/x';
+	import { XIcon } from '@lucide/svelte';
 	import { Dialog as SheetPrimitive } from 'bits-ui';
 	import type { Snippet } from 'svelte';
 	import type { ComponentProps } from 'svelte';

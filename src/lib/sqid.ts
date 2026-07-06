@@ -39,3 +39,16 @@ export const sqidInput = z.string().transform((val, ctx) => {
 		return z.NEVER;
 	}
 });
+
+// Just for checking on the client
+export const sqidInputClient = z.string().refine(
+	(val) => {
+		try {
+			fromSqid(val);
+			return true;
+		} catch {
+			return false;
+		}
+	},
+	{ message: 'not a valid id' }
+);
