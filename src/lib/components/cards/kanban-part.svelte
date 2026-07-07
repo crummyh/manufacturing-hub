@@ -8,6 +8,7 @@
 	import Button, { buttonVariants } from '../ui/button/button.svelte';
 	import UserAvatar from '../user-avatar.svelte';
 	import { Check, ChevronLeft, ChevronRight } from '@lucide/svelte';
+	import { toast } from 'svelte-sonner';
 
 	interface Props {
 		part: KanbanPart;
@@ -98,6 +99,7 @@
 					use:enhance={() => {
 						removePart(part.id);
 						return async ({ update }) => {
+							toast.success(`${part.name} archived`);
 							await update();
 						};
 					}}
