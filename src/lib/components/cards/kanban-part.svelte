@@ -91,6 +91,22 @@
 						><ChevronRight /></Button
 					>
 				</form>
+			{:else}
+				<form
+					method="POST"
+					action="?/archivePart"
+					use:enhance={() => {
+						removePart(part.id);
+						return async ({ update }) => {
+							await update();
+						};
+					}}
+				>
+					<input type="hidden" name="partId" value={part.id} />
+					<Button size="icon" variant="outline" type="submit" aria-label="Archive part"
+						><Check /></Button
+					>
+				</form>
 			{/if}
 		</ButtonGroup.Root>
 	</Card.Footer>

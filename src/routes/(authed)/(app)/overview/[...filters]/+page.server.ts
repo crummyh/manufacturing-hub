@@ -3,10 +3,11 @@ import { requireUser } from '$lib/server/auth';
 import { db } from '$lib/server/db';
 import { getFirstState, getTemplatesWithSteps } from '$lib/server/db/queries';
 import { part, partStep, project, state, step, user } from '$lib/server/db/schema';
-import { partInsertSchema, projectSelectSchema, stepSelectSchema } from '$lib/server/db/schema.zod';
+import { projectSelectSchema, stepSelectSchema } from '$lib/server/db/schema.zod';
 import { getErrorMessage } from '$lib/utils';
 import type { PageServerLoad, Actions } from './$types';
 import {
+	archivePartSchema,
 	kanbanSelectSchema,
 	movePartSchema,
 	newPartSchema,
@@ -16,7 +17,7 @@ import { error, fail } from '@sveltejs/kit';
 import { eq, and, getTableColumns } from 'drizzle-orm';
 import { generateNKeysBetween } from 'fractional-indexing';
 import { superValidate } from 'sveltekit-superforms';
-import { zod, zod4 } from 'sveltekit-superforms/adapters';
+import { zod4 } from 'sveltekit-superforms/adapters';
 
 export const load: PageServerLoad = async ({ params }) => {
 	let filters;
@@ -175,6 +176,25 @@ export const actions: Actions = {
 				.update(part)
 				.set({ stateId: data.data.newStateId })
 				.where(eq(part.id, data.data.partId));
+		} catch (e) {
+			const msg = getErrorMessage(e);
+			return fail(500, `Failed to query db: ${msg}`);
+		}
+	},
+
+	archivePart: async (event) => {
+		requireUser(event.locals, event.url.pathname);
+
+		const rawData = await event.request.formData();
+		// Object.fromEntries is needed because rawData is of type FormData. This approach won't work for complex data
+		const data = archivePartSchema.safeParse(Object.fromEntries(rawData.entries()));
+
+		if (data.error) {
+			return fail(400, data.error.message);
+		}
+
+		try {
+			await db.update(part).set({ archived: true }).where(eq(part.id, data.data.partId));
 		} catch (e) {
 			const msg = getErrorMessage(e);
 			return fail(500, `Failed to query db: ${msg}`);

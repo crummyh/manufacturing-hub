@@ -40,6 +40,10 @@ export type Templates = {
 }[];
 
 export const movePartSchema = z.object({
-  partId: sqidInput,
-  newStateId: sqidInput
-})
+	partId: sqidInput,
+	newStateId: sqidInput
+});
+
+export const archivePartSchema = z.object({
+	partId: sqidInput
+});
