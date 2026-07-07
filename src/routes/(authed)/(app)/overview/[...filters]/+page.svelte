@@ -19,8 +19,6 @@
 
 	let refreshing = $state(false);
 	let creatingPart = $state(false);
-
-	$inspect(data.states);
 </script>
 
 <PageHeader>

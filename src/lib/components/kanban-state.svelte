@@ -17,8 +17,6 @@
 	function removePart(id: string) {
 		state.parts = state.parts.filter((p) => p.id !== id);
 	}
-
-	// $inspect(state);
 </script>
 
 <div class="flex flex-col gap-2">
