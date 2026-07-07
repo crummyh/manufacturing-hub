@@ -30,15 +30,6 @@ export const newPartSchema = partInsertSchema.extend({
 export type NewPart = z.infer<typeof newPartSchema>;
 export type NewPartSchema = typeof newPartSchema;
 
-export type Templates = {
-	id: string;
-	name: string;
-	steps: {
-		id: string;
-		name: string;
-	}[];
-}[];
-
 export const movePartSchema = z.object({
 	partId: sqidInput,
 	newStateId: sqidInput
