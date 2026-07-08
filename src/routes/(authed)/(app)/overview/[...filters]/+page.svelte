@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { invalidateAll } from '$app/navigation';
 	import PartCreation from '$lib/components/cards/part-creation.svelte';
-	import KanbanState from '$lib/components/kanban-state.svelte';
 	import PageHeader from '$lib/components/sidebar/page-header.svelte';
 	import * as Breadcrumb from '$lib/components/ui/breadcrumb';
 	import { Button, buttonVariants } from '$lib/components/ui/button';
 	import * as Dialog from '$lib/components/ui/dialog/index.js';
 	import type { PageProps } from './$types';
+	import KanbanState from './kanban-state.svelte';
 	import { Plus, RotateCw } from '@lucide/svelte';
 
 	async function refreshDate() {

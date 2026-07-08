@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import { resolve } from '$app/paths';
+	import Badge from '$lib/components/ui/badge/badge.svelte';
 	import * as ButtonGroup from '$lib/components/ui/button-group';
+	import Button, { buttonVariants } from '$lib/components/ui/button/button.svelte';
 	import * as Card from '$lib/components/ui/card/index';
-	import type { KanbanPart } from '../../../routes/(authed)/(app)/overview/[...filters]/schemas';
-	import Badge from '../ui/badge/badge.svelte';
-	import Button, { buttonVariants } from '../ui/button/button.svelte';
-	import UserAvatar from '../user-avatar.svelte';
+	import UserAvatar from '$lib/components/user-avatar.svelte';
+	import type { KanbanPart } from './schemas';
 	import { Check, ChevronLeft, ChevronRight } from '@lucide/svelte';
 	import { toast } from 'svelte-sonner';
 

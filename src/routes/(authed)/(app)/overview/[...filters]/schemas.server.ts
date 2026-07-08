@@ -7,7 +7,6 @@ import {
 } from '$lib/server/schema.zod';
 import { sqidInput } from '$lib/sqid';
 import z from 'zod';
-import { boolean } from 'zod';
 
 const kanbanPartSchema = partSelectSchema.extend({
 	assignee: userSelectSchema.optional().nullable(),
@@ -21,14 +20,6 @@ export const kanbanSelectSchema = stateSelectSchema
 	.array();
 
 export const projectsSelectSchema = projectSelectSchema.array();
-
-export const newPartSchema = partInsertSchema.extend({
-	critical: boolean().default(false),
-	steps: sqidInput.array()
-});
-
-export type NewPart = z.infer<typeof newPartSchema>;
-export type NewPartSchema = typeof newPartSchema;
 
 export const movePartSchema = z.object({
 	partId: sqidInput,

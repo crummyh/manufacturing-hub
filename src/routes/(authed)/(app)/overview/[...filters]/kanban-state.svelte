@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
-	import type { KanbanState } from '../../routes/(authed)/(app)/overview/[...filters]/schemas';
-	import KanbanPart from './cards/kanban-part.svelte';
-	import Badge from './ui/badge/badge.svelte';
-	import { buttonVariants } from './ui/button/button.svelte';
+	import Badge from '$lib/components/ui/badge/badge.svelte';
+	import { buttonVariants } from '$lib/components/ui/button/button.svelte';
+	import KanbanPart from './kanban-part.svelte';
+	import type { KanbanState } from './schemas';
 	import { Ellipsis } from '@lucide/svelte';
 
 	interface Props {
