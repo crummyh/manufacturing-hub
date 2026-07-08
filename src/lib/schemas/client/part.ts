@@ -1,5 +1,5 @@
 import { sqidInputClient } from '$lib/sqid';
-import { partNameRule, partQuantityRule } from './rules';
+import { partNameRule, partQuantityRule } from '../rules';
 import { z } from 'zod';
 
 export const partInsertSchemaClient = z.object({

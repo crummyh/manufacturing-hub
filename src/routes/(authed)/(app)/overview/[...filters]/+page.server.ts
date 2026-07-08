@@ -3,7 +3,7 @@ import { requireUser } from '$lib/server/auth';
 import { db } from '$lib/server/db';
 import { getFirstState, getTemplatesWithSteps } from '$lib/server/db/queries';
 import { part, partStep, project, state, step, user } from '$lib/server/db/schema';
-import { projectSelectSchema, stepSelectSchema } from '$lib/server/db/schema.zod';
+import { projectSelectSchema, stepSelectSchema } from '$lib/server/schema.zod';
 import { getErrorMessage } from '$lib/utils';
 import type { PageServerLoad, Actions } from './$types';
 import {

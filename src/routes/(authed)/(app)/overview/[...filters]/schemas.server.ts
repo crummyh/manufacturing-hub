@@ -4,7 +4,7 @@ import {
 	partSelectSchema,
 	projectSelectSchema,
 	stateSelectSchema
-} from '$lib/server/db/schema.zod';
+} from '$lib/server/schema.zod';
 import { sqidInput } from '$lib/sqid';
 import z from 'zod';
 import { boolean } from 'zod';

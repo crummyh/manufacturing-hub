@@ -63,11 +63,3 @@ flowchart LR
 | `schema(.server).ts` | Route | Schemas that are specific to that route |
 
 [^1] This is primarily hand written schemas, only using Drizzle generated schema for very simple queries.
-
-## Remaining Questions
-
-Where do types for components go? If a component needs some section of a database query, I have a few options:
-1. Manually define types in components
-2. One giant type file for the client
-3. A type file per page/feature
-4. Derive type from generated `$types` on the page

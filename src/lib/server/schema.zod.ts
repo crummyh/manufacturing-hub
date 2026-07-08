@@ -1,5 +1,5 @@
 import { sqidInput, sqidOutput } from '$lib/sqid';
-import { part, project, state, step, partStep, template, templateStep } from './schema';
+import { part, project, state, step, partStep, template, templateStep } from './db/schema';
 import { createSelectSchema } from 'drizzle-zod';
 import { createInsertSchema } from 'drizzle-zod';
 import { createUpdateSchema } from 'drizzle-zod';

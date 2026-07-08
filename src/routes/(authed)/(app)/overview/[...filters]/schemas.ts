@@ -1,4 +1,4 @@
-import { partInsertSchemaClient } from '$lib/schemas/part';
+import { partInsertSchemaClient } from '$lib/schemas/client/part';
 import { sqidInputClient } from '$lib/sqid';
 import z from 'zod';
 
