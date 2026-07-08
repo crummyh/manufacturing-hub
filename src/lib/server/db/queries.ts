@@ -1,6 +1,6 @@
 import { db } from '.';
+import { stepSelectSchema, templateSelectSchema } from '../schema.zod';
 import { state } from './schema';
-import { stepSelectSchema, templateSelectSchema } from './schema.zod';
 import type z from 'zod';
 
 export const templatesSchema = templateSelectSchema
