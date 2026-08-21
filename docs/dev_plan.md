@@ -36,7 +36,7 @@ User stories let us look at what users might want to do, then create features to
 - As a designer, I want to be able to bulk add parts to the system so I can import an entire subsystem at once
 - As a mobile user, I want a list view to be available so I can navigate the main page easier.
 
-### Core Workflow
+### App Workflow
 
 ```mermaid
 flowchart LR
@@ -133,7 +133,6 @@ erDiagram
 #### Views
 
 - Signin (`/auth/signin`)
-- Main Kanban Board (each state is a column) (`/overview`) with filtering
 - Table View (`/table`) with filtering
 - Part Details (`/part/[partId]`)
 - New Part Creation (Popup?)
