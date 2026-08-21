@@ -1,14 +1,3 @@
-import { partInsertSchemaClient } from '$lib/schemas/client/part';
-import { sqidInputClient } from '$lib/sqid';
-import z from 'zod';
-
-export const newPartSchemaClient = partInsertSchemaClient.extend({
-	steps: sqidInputClient.array()
-});
-
-export type NewPartClient = z.infer<typeof newPartSchemaClient>;
-export type NewPartSchemaClient = typeof newPartSchemaClient;
-
 export interface KanbanPart {
 	id: string;
 	name: string;
@@ -44,22 +33,3 @@ export type KanbanState = {
 	name: string;
 	parts: KanbanPart[];
 };
-
-export type ProjectsSelect = {
-	id: string;
-	name: string;
-}[];
-
-export type Templates = {
-	id: string;
-	name: string;
-	steps: {
-		id: string;
-		name: string;
-	}[];
-}[];
-
-export type Steps = {
-	id: string;
-	name: string;
-}[];

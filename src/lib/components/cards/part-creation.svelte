@@ -5,13 +5,10 @@
 	import * as Form from '$lib/components/ui/form/index.js';
 	import { Input } from '$lib/components/ui/input/index.js';
 	import * as Select from '$lib/components/ui/select/index.js';
-	import {
-		newPartSchemaClient,
-		type NewPartSchemaClient,
-		type ProjectsSelect,
-		type Steps,
-		type Templates
-	} from '../../../routes/(authed)/(app)/overview/[...filters]/schemas';
+	import { newPartSchemaClient, type NewPartSchemaClient } from '$lib/schemas/forms';
+	import type { Projects } from '$lib/schemas/project';
+	import type { Steps } from '$lib/schemas/step';
+	import type { Templates } from '$lib/server/db/queries';
 	import ButtonGroup from '../ui/button-group/button-group.svelte';
 	import Button from '../ui/button/button.svelte';
 	import Label from '../ui/label/label.svelte';
@@ -29,7 +26,7 @@
 
 	interface Props {
 		form: SuperValidated<InferIn<NewPartSchemaClient>>;
-		projects: ProjectsSelect;
+		projects: Projects;
 		open: boolean;
 		steps: Steps;
 		templates: Templates;

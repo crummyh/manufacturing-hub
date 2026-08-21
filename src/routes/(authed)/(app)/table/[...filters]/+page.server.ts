@@ -1,5 +1,4 @@
 import { parseOverviewFilters, overviewFilterSchema } from '$lib/filter';
-import { requireUser } from '$lib/server/auth';
 import { db } from '$lib/server/db';
 import { basicNavButtonsData } from '$lib/server/db/queries';
 import { part, project, state, user } from '$lib/server/db/schema';
@@ -7,8 +6,7 @@ import { newPart } from '$lib/server/forms';
 import { projectSelectSchema } from '$lib/server/schema.zod';
 import { getErrorMessage } from '$lib/utils';
 import type { PageServerLoad, Actions } from './$types';
-import { archivePartSchema, kanbanSelectSchema, movePartSchema } from './schemas.server';
-import { error, fail } from '@sveltejs/kit';
+import { error } from '@sveltejs/kit';
 import { eq, and, getTableColumns } from 'drizzle-orm';
 
 export const load: PageServerLoad = async ({ params }) => {
@@ -43,35 +41,6 @@ export const load: PageServerLoad = async ({ params }) => {
 			.leftJoin(project, eq(part.projectId, project.id))
 			.leftJoin(user, eq(part.assigneeId, user.id));
 
-		// Group flat rows into nested states -> parts[]
-		const statesMap = new Map<number, typeof state.$inferSelect & { parts: unknown[] }>();
-
-		for (const row of rows) {
-			if (!statesMap.has(row.state.id)) {
-				statesMap.set(row.state.id, { ...row.state, parts: [] });
-			}
-
-			if (row.part) {
-				statesMap.get(row.state.id)!.parts.push({
-					...row.part,
-					assignee: row.assignee,
-					project: row.project
-				});
-			}
-		}
-
-		const states = kanbanSelectSchema.parse(Array.from(statesMap.values()));
-		// Sort by order
-		states.sort((a, b) => {
-			if (a.order < b.order) {
-				return -1;
-			}
-			if (a.order > b.order) {
-				return 1;
-			}
-			return 0;
-		});
-
 		// Get the project and assignee that are being filtered by (This might not be needed, or maybe just the id)
 		const filteredProject = filters.project
 			? projectSelectSchema.parse(
@@ -88,7 +57,6 @@ export const load: PageServerLoad = async ({ params }) => {
 		const navButtonsData = await basicNavButtonsData();
 
 		return {
-			states,
 			filteredProject,
 			filteredAssignee,
 			...navButtonsData
@@ -100,46 +68,5 @@ export const load: PageServerLoad = async ({ params }) => {
 };
 
 export const actions: Actions = {
-	newPart: newPart,
-
-	movePart: async (event) => {
-		requireUser(event.locals, event.url.pathname);
-
-		const rawData = await event.request.formData();
-		// Object.fromEntries is needed because rawData is of type FormData. This approach won't work for complex data
-		const data = movePartSchema.safeParse(Object.fromEntries(rawData.entries()));
-
-		if (data.error) {
-			return fail(400, data.error.message);
-		}
-
-		try {
-			await db
-				.update(part)
-				.set({ stateId: data.data.newStateId })
-				.where(eq(part.id, data.data.partId));
-		} catch (e) {
-			const msg = getErrorMessage(e);
-			return fail(500, `Failed to query db: ${msg}`);
-		}
-	},
-
-	archivePart: async (event) => {
-		requireUser(event.locals, event.url.pathname);
-
-		const rawData = await event.request.formData();
-		// Object.fromEntries is needed because rawData is of type FormData. This approach won't work for complex data
-		const data = archivePartSchema.safeParse(Object.fromEntries(rawData.entries()));
-
-		if (data.error) {
-			return fail(400, data.error.message);
-		}
-
-		try {
-			await db.update(part).set({ archived: true }).where(eq(part.id, data.data.partId));
-		} catch (e) {
-			const msg = getErrorMessage(e);
-			return fail(500, `Failed to query db: ${msg}`);
-		}
-	}
+	newPart: newPart
 };

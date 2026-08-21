@@ -68,6 +68,7 @@
 	"dependencies": {
 		"@dragdroptouch/drag-drop-touch": "^2.0.3",
 		"@fontsource/armata": "^5.2.8",
+		"@tanstack/table-core": "^8.21.3",
 		"drizzle-zod": "^0.8.3",
 		"formsnap": "^2.0.1",
 		"fractional-indexing": "^4.0.0",

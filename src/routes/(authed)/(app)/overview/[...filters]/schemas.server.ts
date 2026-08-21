@@ -1,10 +1,5 @@
 import { userSelectSchema } from '$lib/server/db/auth.zod.schema';
-import {
-	partInsertSchema,
-	partSelectSchema,
-	projectSelectSchema,
-	stateSelectSchema
-} from '$lib/server/schema.zod';
+import { partSelectSchema, projectSelectSchema, stateSelectSchema } from '$lib/server/schema.zod';
 import { sqidInput } from '$lib/sqid';
 import z from 'zod';
 
@@ -18,8 +13,6 @@ export const kanbanSelectSchema = stateSelectSchema
 		parts: kanbanPartSchema.array()
 	})
 	.array();
-
-export const projectsSelectSchema = projectSelectSchema.array();
 
 export const movePartSchema = z.object({
 	partId: sqidInput,

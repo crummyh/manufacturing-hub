@@ -1,10 +1,8 @@
 <script lang="ts">
-	import { invalidateAll } from '$app/navigation';
 	import BasicHeaderButtons from '$lib/components/sidebar/basic-header-buttons.svelte';
 	import PageHeader from '$lib/components/sidebar/page-header.svelte';
 	import * as Breadcrumb from '$lib/components/ui/breadcrumb';
 	import type { PageProps } from './$types';
-	import KanbanState from './kanban-state.svelte';
 
 	let { data }: PageProps = $props();
 </script>
@@ -14,7 +12,7 @@
 		<Breadcrumb.Root>
 			<Breadcrumb.List>
 				<Breadcrumb.Item>
-					<Breadcrumb.Page>Overview</Breadcrumb.Page>
+					<Breadcrumb.Page>Table</Breadcrumb.Page>
 				</Breadcrumb.Item>
 			</Breadcrumb.List>
 		</Breadcrumb.Root>
@@ -26,13 +24,3 @@
 		/>
 	</div>
 </PageHeader>
-
-<div class="m-2 flex gap-2 overflow-scroll px-0.5 py-2">
-	{#each data.states as state, i (state.id)}
-		<KanbanState
-			{state}
-			lastState={i !== 0 ? data.states[i - 1].id : undefined}
-			nextState={i !== data.states.length - 1 ? data.states[i + 1].id : undefined}
-		/>
-	{/each}
-</div>

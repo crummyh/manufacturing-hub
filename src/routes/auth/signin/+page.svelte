@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import LoginCard from '$lib/components/cards/login.svelte';
+	import LoginCard from './login.svelte';
 	import { onMount } from 'svelte';
 
 	let redirectUrl = $state('/');
