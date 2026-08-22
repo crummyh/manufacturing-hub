@@ -1,13 +1,16 @@
 // import { parseOverviewFilters, overviewFilterSchema } from '$lib/filter';
 import { db } from '$lib/server/db';
-import { state } from '$lib/server/db/schema';
+import { part, state } from '$lib/server/db/schema';
 import { basicNavButtonsData } from '$lib/server/db/queries';
 // import { part, project, state, user } from '$lib/server/db/schema';
 import { newPart } from '$lib/server/forms';
 // import { projectSelectSchema } from '$lib/server/schema.zod';
 import { getErrorMessage } from '$lib/utils';
 import type { PageServerLoad, Actions } from './$types';
-import { error } from '@sveltejs/kit';
+import { error, fail } from '@sveltejs/kit';
+import { requireUser } from '$lib/server/auth';
+import z from 'zod';
+import { eq } from 'drizzle-orm';
 // import { eq, and, getTableColumns } from 'drizzle-orm';
 
 export const load: PageServerLoad = async () => {
@@ -114,6 +117,34 @@ export const load: PageServerLoad = async () => {
 	}
 };
 
+const setStateSchema = z.object({
+  partId: z.coerce.number(),
+  newStateId: z.coerce.number()
+})
+
 export const actions: Actions = {
-	newPart: newPart
+  newPart: newPart,
+
+  setState: async ({ locals, request }) => {
+    requireUser(locals);
+
+    // Workaround for formdata
+    const formData = Object.fromEntries((await request.formData()).entries())
+    const { data, error } = setStateSchema.safeParse(formData);
+    if (error) {
+      return fail(400, error.message)
+    }
+
+    try {
+      await db.update(part).set({
+        stateId: data.newStateId
+      }).where(eq(part.id, data.partId))
+
+    } catch (e) {
+      const msg = getErrorMessage(e);
+      return fail(500, msg);
+    }
+
+		return { success: true };
+  }
 };

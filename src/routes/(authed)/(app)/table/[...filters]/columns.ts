@@ -89,7 +89,8 @@ export const columns = columnHelper.columns([
       if (row.original.state) {
         return renderComponent(DataTableState, {
           ...row.original.state,
-          states: table.options.meta?.states ?? []
+          states: table.options.meta?.states ?? [],
+          partId: row.original.id
         })
       }
     }
