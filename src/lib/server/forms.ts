@@ -1,4 +1,5 @@
 import { sqidInput } from '$lib/sqid';
+import { eq } from 'drizzle-orm';
 import { requireUser } from './auth';
 import { db } from './db';
 import { getFirstState } from './db/queries';
@@ -27,34 +28,45 @@ export const newPart: Action = async (event) => {
 		return fail(400, {
 			form
 		});
-	}
+  }
 
 	// Needed to assign state
 	const firstState = await getFirstState();
 
 	// Add the part
-	const newPart = await db
+	const newPart = (await db
 		.insert(part)
 		.values({
 			name: form.data.name,
 			quantity: form.data.quantity,
 			critical: form.data.critical,
 			projectId: form.data.projectId,
-			stateId: firstState.id
+      stateId: firstState.id,
 		})
-		.returning();
+		.returning())[0] ?? null;
 
 	// Generate initial ordering for PartSteps
 	const orders = generateNKeysBetween(null, null, form.data.steps.length);
 
+  let firstStepId = null;
+
 	// Add a PartStep for each step
-	form.data.steps.forEach((step, i) => {
-		db.insert(partStep).values({
-			partId: newPart.id,
-			stepId: step,
-			order: orders[i]
-		});
-	});
+  for (let i = 0; i < form.data.steps.length; i++) {
+    const createdPartStep = await db.insert(partStep).values({
+      partId: newPart.id,
+      stepId: form.data.steps[i],
+      order: orders[i]
+    }).returning();
+
+    if (i === 0) {
+      firstStepId = createdPartStep[0].id ?? null;
+		}
+  }
+
+	// Set the first step
+  await db.update(part).set({
+    currentStepId: firstStepId
+	}).where(eq(part.id, newPart.id))
 
 	return {
 		form

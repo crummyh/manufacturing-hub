@@ -3,6 +3,8 @@
 	import PageHeader from '$lib/components/sidebar/page-header.svelte';
 	import * as Breadcrumb from '$lib/components/ui/breadcrumb';
 	import type { PageProps } from './$types';
+	import { columns } from './columns';
+	import DataTable from './data-table.svelte';
 
 	let { data }: PageProps = $props();
 </script>
@@ -24,3 +26,7 @@
 		/>
 	</div>
 </PageHeader>
+
+<div class="px-4">
+    <DataTable data={data.parts} states={data.states} {columns}/>
+</div>

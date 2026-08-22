@@ -1,6 +1,6 @@
 import { user } from './auth.schema';
 import { relations } from 'drizzle-orm';
-import { pgTable, integer, text, timestamp, boolean } from 'drizzle-orm/pg-core';
+import { pgTable, integer, text, timestamp, boolean, type AnyPgColumn } from 'drizzle-orm/pg-core';
 
 export * from './auth.schema';
 
@@ -14,7 +14,8 @@ export const part = pgTable('parts', {
 	archived: boolean('archived').notNull().default(false),
 	assigneeId: text('assignee_id').references(() => user.id),
 	projectId: integer('project_id').references(() => project.id),
-	stateId: integer('state_id').references(() => state.id)
+  stateId: integer('state_id').references(() => state.id),
+  currentStepId: integer('current_step_id').references(() => partStep.id)
 });
 
 export const partRelations = relations(part, ({ one, many }) => ({
@@ -29,6 +30,10 @@ export const partRelations = relations(part, ({ one, many }) => ({
 	state: one(state, {
 		fields: [part.stateId],
 		references: [state.id]
+  }),
+  currentStep: one(partStep, {
+    fields: [part.currentStepId],
+    references: [partStep.id]
 	}),
 	partSteps: many(partStep)
 }));
@@ -74,12 +79,11 @@ export const partStep = pgTable('part_steps', {
 	id: integer('id').primaryKey().generatedAlwaysAsIdentity(),
 	partId: integer('part_id')
 		.notNull()
-		.references(() => part.id),
+		.references((): AnyPgColumn => part.id),
 	stepId: integer('step_id')
 		.notNull()
 		.references(() => step.id),
 	order: text('order').notNull(),
-	completed: boolean('completed').notNull().default(false),
 	completedBy: text('completed_by').references(() => user.id),
 	completedAt: timestamp('completed_at', { withTimezone: true })
 });

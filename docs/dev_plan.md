@@ -85,6 +85,7 @@ erDiagram
     boolean archived
     string assignee_id FK
     integer project_id FK
+    integer current_step_id FK
   }
 
   STEP {
@@ -97,7 +98,6 @@ erDiagram
     integer part_id FK
     integer step_id FK
     string order "uses fractional indexing"
-    boolean completed
     string completed_by FK
     timestamp completed_at
   }
@@ -128,6 +128,7 @@ erDiagram
   STATE ||..o{ PART : "is at"
   TEMPLATE }o..|| TEMPLATE_STEP : "has steps"
   STEP |o..|| TEMPLATE_STEP : "defines step"
+  PART |o..o| PART_STEP : "is at step"
 ```
 
 #### Views

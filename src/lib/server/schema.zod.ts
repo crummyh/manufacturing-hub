@@ -12,21 +12,24 @@ export const partSelectSchema = createSelectSchema(part, {
 	name: (schema) => schema.max(128).min(1),
 	quantity: (schema) => schema.max(4786).min(0),
 	stateId: sqidOutput.optional().nullable(),
-	projectId: sqidOutput.optional().nullable()
+	projectId: sqidOutput.optional().nullable(),
+	currentStepId: sqidOutput.optional().nullable()
 });
 
 export const partInsertSchema = createInsertSchema(part, {
 	name: (schema) => schema.max(128).min(1),
 	quantity: (schema) => schema.max(4786).min(0),
 	stateId: sqidInput.optional().nullable(),
-	projectId: sqidInput.optional().nullable()
+  projectId: sqidInput.optional().nullable(),
+  currentStepId: sqidInput.optional().nullable()
 });
 
 export const partUpdateSchema = createUpdateSchema(part, {
 	name: (schema) => schema.max(128).min(1),
 	quantity: (schema) => schema.max(4786).min(0),
 	stateId: sqidInput.optional().nullable(),
-	projectId: sqidInput.optional().nullable()
+  projectId: sqidInput.optional().nullable(),
+  currentStepId: sqidInput.optional().nullable()
 });
 
 export type PartSelect = z.infer<typeof partSelectSchema>;
