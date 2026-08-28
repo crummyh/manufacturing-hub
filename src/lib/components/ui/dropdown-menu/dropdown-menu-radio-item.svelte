@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { cn, type WithoutChild } from '$lib/utils.js';
 	import { CheckIcon } from '@lucide/svelte';
+	import { cn, type WithoutChild } from '$lib/utils.js';
 	import { DropdownMenu as DropdownMenuPrimitive } from 'bits-ui';
 
 	let {

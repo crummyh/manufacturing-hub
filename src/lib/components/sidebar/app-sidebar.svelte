@@ -1,10 +1,11 @@
 <script lang="ts">
 	import * as Sidebar from '$lib/components/ui/sidebar';
+	import type { User } from 'better-auth';
+	import type { ComponentProps } from 'svelte';
+
 	import MainLogo from '../main-logo.svelte';
 	import MainNav from './main-nav.svelte';
 	import UserMenu from './user-menu.svelte';
-	import type { User } from 'better-auth';
-	import type { ComponentProps } from 'svelte';
 
 	interface Props extends ComponentProps<typeof Sidebar.Root> {
 		user: User;

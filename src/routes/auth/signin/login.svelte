@@ -20,8 +20,8 @@
 	async function logIn() {
 		loading = true;
 
-		const { error: err } = await authClient.signIn.oauth2({
-			providerId: 'onshape',
+		const { error: err } = await authClient.signIn.social({
+			provider: 'onshape',
 			callbackURL: redirectUrl
 		});
 

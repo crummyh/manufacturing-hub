@@ -1,5 +1,6 @@
-import { getErrorMessage, userAbbr } from './utils';
 import { describe, expect, test } from 'vitest';
+
+import { getErrorMessage, userAbbr } from './utils';
 
 test('user abbreviations', () => {
 	expect(userAbbr('John Doe')).toBe('JD');

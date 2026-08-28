@@ -1,6 +1,7 @@
-import { requireUser } from './auth';
 import { isRedirect, type Redirect } from '@sveltejs/kit';
 import { describe, expect, test } from 'vitest';
+
+import { requireUser } from './auth';
 
 describe('require user', () => {
 	test('redirects with no user', () => {

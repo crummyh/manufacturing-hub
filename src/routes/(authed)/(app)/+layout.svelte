@@ -1,6 +1,7 @@
 <script lang="ts">
 	import AppSidebar from '$lib/components/sidebar/app-sidebar.svelte';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
+
 	import type { LayoutProps } from './$types';
 
 	let { children, data }: LayoutProps = $props();

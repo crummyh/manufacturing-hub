@@ -1,8 +1,8 @@
 <script lang="ts" generics="T">
 	import { cn } from '$lib/utils.js';
+	import { tick, type Snippet } from 'svelte';
+
 	import ReorderableItem from './reorderable-item.svelte';
-	import { tick } from 'svelte';
-	import type { Snippet } from 'svelte';
 
 	/**
 	 * Props spread onto whatever element you want to act as the drag handle

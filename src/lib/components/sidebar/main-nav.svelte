@@ -1,9 +1,9 @@
 <script lang="ts">
+	import { Folder, SquareKanban, Table, type LucideProps } from '@lucide/svelte';
 	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
 	import type { RouteId } from '$app/types';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
-	import { Folder, SquareKanban, Table, type LucideProps } from '@lucide/svelte';
 	import type { Component } from 'svelte';
 
 	// Todo: Highlight active page better

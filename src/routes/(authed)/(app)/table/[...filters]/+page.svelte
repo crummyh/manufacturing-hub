@@ -2,6 +2,7 @@
 	import BasicHeaderButtons from '$lib/components/sidebar/basic-header-buttons.svelte';
 	import PageHeader from '$lib/components/sidebar/page-header.svelte';
 	import * as Breadcrumb from '$lib/components/ui/breadcrumb';
+
 	import type { PageProps } from './$types';
 	import { columns } from './columns';
 	import DataTable from './data-table.svelte';
@@ -28,5 +29,5 @@
 </PageHeader>
 
 <div class="px-4">
-    <DataTable data={data.parts} states={data.states} {columns}/>
+	<DataTable data={data.parts} states={data.states} {columns} />
 </div>

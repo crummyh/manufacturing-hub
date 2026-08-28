@@ -1,6 +1,7 @@
 import { sqidInputClient } from '$lib/sqid';
-import { partInsertSchemaClient } from './client/part';
 import type z from 'zod';
+
+import { partInsertSchemaClient } from './client/part';
 
 export const newPartSchemaClient = partInsertSchemaClient.extend({
 	steps: sqidInputClient.array()

@@ -17,10 +17,11 @@ export type FormSchema = typeof formSchema;
 ## 2. Add the form to the load function
 
 ```ts
-import type { PageServerLoad } from './$types.js';
-import { formSchema } from './schema';
 import { superValidate } from 'sveltekit-superforms';
 import { zod4 } from 'sveltekit-superforms/adapters';
+
+import type { PageServerLoad } from './$types.js';
+import { formSchema } from './schema';
 
 export const load: PageServerLoad = async () => {
 	return {
@@ -36,9 +37,10 @@ This part of the form should _not_ be in `+page.svelte`, but rather in a separat
 ### a. Take the form from the load function
 
 ```ts
-import { formSchema, type FormSchema } from './schema';
-import { type SuperValidated, type Infer, superForm } from 'sveltekit-superforms';
+import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
 import { zod4Client } from 'sveltekit-superforms/adapters';
+
+import { formSchema, type FormSchema } from './schema';
 
 let { form: initialForm }: { form: SuperValidated<Infer<FormSchema>> } = $props();
 ```

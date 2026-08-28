@@ -1,3 +1,4 @@
+import { redirect } from '@sveltejs/kit';
 import { resolve } from '$app/paths';
 import { getRequestEvent } from '$app/server';
 import {
@@ -7,7 +8,6 @@ import {
 	ORIGIN
 } from '$env/static/private';
 import { db } from '$lib/server/db';
-import { redirect } from '@sveltejs/kit';
 import type { OAuth2UserInfo, User } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { betterAuth } from 'better-auth/minimal';
@@ -76,7 +76,7 @@ export const auth = betterAuth({
 export function requireUser(locals: App.Locals, returnTo?: string): User {
 	if (!locals.user) {
 		// If no user
-		let url = resolve('/auth/signin');
+		let url = resolve('/auth/signin', {});
 
 		// Add the returnTo route to redirect the user to after auth
 		if (returnTo) {

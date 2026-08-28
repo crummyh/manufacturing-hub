@@ -1,14 +1,15 @@
 <script lang="ts">
+	import { ChevronDown, LogOut, Moon, Sun } from '@lucide/svelte';
 	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
 	import { authClient } from '$lib/auth-client';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import { useSidebar } from '$lib/components/ui/sidebar/index.js';
-	import UserAvatar from '../user-avatar.svelte';
-	import { ChevronDown, LogOut, Moon, Sun } from '@lucide/svelte';
 	import type { User } from 'better-auth';
 	import { toggleMode } from 'mode-watcher';
+
+	import UserAvatar from '../user-avatar.svelte';
 
 	interface Props {
 		user: User;

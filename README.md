@@ -73,8 +73,8 @@ See `package.json` for all commands
 This project is not even close to done. All todos and issues are in documented in the Github issues section.
 
 This branch:
-* No error handling on the client for server errors
 
+- No error handling on the client for server errors
 
 ## Common Issues
 

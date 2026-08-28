@@ -55,11 +55,11 @@ Because the cookies are set to `sameSite=None`, this allows cross-site credentia
 
 ```ts
 // hooks.server.ts - Specific to SvelteKit, you will need to modify
-import { building } from '$app/environment';
-import { PUBLIC_ONSHAPE_ENTERPRISE, ORIGIN } from '$env/static/public';
-import { auth } from '$lib/server/auth';
 import type { Handle } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
+import { building } from '$app/environment';
+import { ORIGIN, PUBLIC_ONSHAPE_ENTERPRISE } from '$env/static/public';
+import { auth } from '$lib/server/auth';
 import { svelteKitHandler } from 'better-auth/svelte-kit';
 
 if (!ORIGIN || !ONSHAPE_ENTERPRISE)

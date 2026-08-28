@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { Plus, RotateCw } from '@lucide/svelte';
 	import { invalidateAll } from '$app/navigation';
 	import PartCreation from '$lib/components/cards/part-creation.svelte';
 	import { Button, buttonVariants } from '$lib/components/ui/button';
@@ -7,7 +8,6 @@
 	import type { Projects } from '$lib/schemas/project';
 	import type { Steps } from '$lib/schemas/step';
 	import type { Templates } from '$lib/schemas/template';
-	import { Plus, RotateCw } from '@lucide/svelte';
 	import type { InferIn, SuperValidated } from 'sveltekit-superforms';
 
 	async function refreshDate() {

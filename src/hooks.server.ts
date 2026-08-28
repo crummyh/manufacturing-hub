@@ -1,8 +1,8 @@
+import type { Handle } from '@sveltejs/kit';
+import { sequence } from '@sveltejs/kit/hooks';
 import { building } from '$app/environment';
 import { ORIGIN } from '$env/static/private';
 import { auth } from '$lib/server/auth';
-import type { Handle } from '@sveltejs/kit';
-import { sequence } from '@sveltejs/kit/hooks';
 import { svelteKitHandler } from 'better-auth/svelte-kit';
 
 if (!ORIGIN) throw new Error('Missing required env vars (ORIGIN)');

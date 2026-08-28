@@ -1,6 +1,7 @@
 <script lang="ts">
 	import PageHeader from '$lib/components/sidebar/page-header.svelte';
 	import * as Breadcrumb from '$lib/components/ui/breadcrumb';
+
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();

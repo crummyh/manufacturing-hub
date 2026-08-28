@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { ChevronDown, ChevronUp, Import, Plus, X } from '@lucide/svelte';
 	import { invalidateAll } from '$app/navigation';
 	import { buttonVariants } from '$lib/components/ui/button/index.js';
 	import * as Dialog from '$lib/components/ui/dialog/index.js';
@@ -9,6 +10,12 @@
 	import type { Projects } from '$lib/schemas/project';
 	import type { Steps } from '$lib/schemas/step';
 	import type { Templates } from '$lib/server/db/queries';
+	import { toast } from 'svelte-sonner';
+	import { flip } from 'svelte/animate';
+	import { scale } from 'svelte/transition';
+	import { superForm, type InferIn, type SuperValidated } from 'sveltekit-superforms';
+	import { zod4Client } from 'sveltekit-superforms/adapters';
+
 	import ButtonGroup from '../ui/button-group/button-group.svelte';
 	import Button from '../ui/button/button.svelte';
 	import Label from '../ui/label/label.svelte';
@@ -17,12 +24,6 @@
 	import SearchableMenu from '../ui/searchable-menu/searchable-menu.svelte';
 	import Spinner from '../ui/spinner/spinner.svelte';
 	import Switch from '../ui/switch/switch.svelte';
-	import { ChevronDown, ChevronUp, Import, Plus, X } from '@lucide/svelte';
-	import { toast } from 'svelte-sonner';
-	import { flip } from 'svelte/animate';
-	import { scale } from 'svelte/transition';
-	import { type SuperValidated, superForm, type InferIn } from 'sveltekit-superforms';
-	import { zod4Client } from 'sveltekit-superforms/adapters';
 
 	interface Props {
 		form: SuperValidated<InferIn<NewPartSchemaClient>>;

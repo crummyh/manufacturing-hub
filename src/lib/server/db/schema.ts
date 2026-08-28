@@ -1,21 +1,23 @@
-import { user } from './auth.schema';
+import { genDefaultNanoid } from '$lib/nanoid';
 import { relations } from 'drizzle-orm';
-import { pgTable, integer, text, timestamp, boolean, type AnyPgColumn } from 'drizzle-orm/pg-core';
+import { boolean, integer, pgTable, text, timestamp, type AnyPgColumn } from 'drizzle-orm/pg-core';
+
+import { user } from './auth.schema';
 
 export * from './auth.schema';
 
 // Parts
 
 export const part = pgTable('parts', {
-	id: integer('id').primaryKey().generatedAlwaysAsIdentity(),
+	id: text('id').primaryKey().$defaultFn(genDefaultNanoid),
 	name: text('name').notNull(),
 	quantity: integer('quantity').notNull(),
 	critical: boolean('critical').notNull().default(false),
 	archived: boolean('archived').notNull().default(false),
 	assigneeId: text('assignee_id').references(() => user.id),
-	projectId: integer('project_id').references(() => project.id),
-  stateId: integer('state_id').references(() => state.id),
-  currentStepId: integer('current_step_id').references(() => partStep.id)
+	projectId: text('project_id').references(() => project.id),
+	stateId: text('state_id').references(() => state.id),
+	currentStepId: text('current_step_id').references(() => partStep.id)
 });
 
 export const partRelations = relations(part, ({ one, many }) => ({
@@ -30,10 +32,10 @@ export const partRelations = relations(part, ({ one, many }) => ({
 	state: one(state, {
 		fields: [part.stateId],
 		references: [state.id]
-  }),
-  currentStep: one(partStep, {
-    fields: [part.currentStepId],
-    references: [partStep.id]
+	}),
+	currentStep: one(partStep, {
+		fields: [part.currentStepId],
+		references: [partStep.id]
 	}),
 	partSteps: many(partStep)
 }));
@@ -41,7 +43,7 @@ export const partRelations = relations(part, ({ one, many }) => ({
 // Projects
 
 export const project = pgTable('projects', {
-	id: integer('id').primaryKey().generatedAlwaysAsIdentity(),
+	id: text('id').primaryKey().$defaultFn(genDefaultNanoid),
 	name: text('name').notNull()
 });
 
@@ -52,7 +54,7 @@ export const projectRelations = relations(project, ({ many }) => ({
 // States
 
 export const state = pgTable('states', {
-	id: integer('id').primaryKey().generatedAlwaysAsIdentity(),
+	id: text('id').primaryKey().$defaultFn(genDefaultNanoid),
 	name: text('name').notNull(),
 	order: text('order').notNull()
 });
@@ -64,7 +66,7 @@ export const stateRelations = relations(state, ({ many }) => ({
 // Steps
 
 export const step = pgTable('steps', {
-	id: integer('id').primaryKey().generatedAlwaysAsIdentity(),
+	id: text('id').primaryKey().$defaultFn(genDefaultNanoid),
 	name: text('name').notNull()
 });
 
@@ -76,11 +78,11 @@ export const stepRelations = relations(step, ({ many }) => ({
 // Part Steps
 
 export const partStep = pgTable('part_steps', {
-	id: integer('id').primaryKey().generatedAlwaysAsIdentity(),
-	partId: integer('part_id')
+	id: text('id').primaryKey().$defaultFn(genDefaultNanoid),
+	partId: text('part_id')
 		.notNull()
 		.references((): AnyPgColumn => part.id),
-	stepId: integer('step_id')
+	stepId: text('step_id')
 		.notNull()
 		.references(() => step.id),
 	order: text('order').notNull(),
@@ -102,7 +104,7 @@ export const partStepRelations = relations(partStep, ({ one }) => ({
 // Templates
 
 export const template = pgTable('templates', {
-	id: integer('id').primaryKey().generatedAlwaysAsIdentity(),
+	id: text('id').primaryKey().$defaultFn(genDefaultNanoid),
 	name: text('name').notNull()
 });
 
@@ -113,11 +115,11 @@ export const templateRelations = relations(template, ({ many }) => ({
 // Template Steps
 
 export const templateStep = pgTable('template_steps', {
-	id: integer('id').primaryKey().generatedAlwaysAsIdentity(),
-	templateId: integer('template_id')
+	id: text('id').primaryKey().$defaultFn(genDefaultNanoid),
+	templateId: text('template_id')
 		.notNull()
 		.references(() => template.id),
-	stepId: integer('step_id')
+	stepId: text('step_id')
 		.notNull()
 		.references(() => step.id),
 	order: text('order').notNull(),

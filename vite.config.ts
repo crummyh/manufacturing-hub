@@ -1,7 +1,7 @@
+import fs from 'fs';
 import { sveltekit } from '@sveltejs/kit/vite';
 import tailwindcss from '@tailwindcss/vite';
 import { playwright } from '@vitest/browser-playwright';
-import fs from 'fs';
 import { defineConfig } from 'vitest/config';
 
 export default defineConfig({

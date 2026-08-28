@@ -1,20 +1,18 @@
+import { error } from '@sveltejs/kit';
+import { zNanoid } from '$lib/nanoid';
 import { requireUser } from '$lib/server/auth';
 import { db } from '$lib/server/db';
 import { part } from '$lib/server/db/schema';
-import { fromSqid } from '$lib/sqid';
-import { getErrorMessage } from '$lib/utils';
-import type { PageServerLoad } from './$types';
-import { error } from '@sveltejs/kit';
 import { eq } from 'drizzle-orm';
+
+import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ params, locals, url }) => {
 	requireUser(locals, url.hostname);
 
-	let partId;
-	try {
-		partId = fromSqid(params.partId);
-	} catch (e) {
-		error(400, getErrorMessage(e));
+	const { data: partId, error: parseError } = zNanoid.safeParse(params.partId);
+	if (parseError) {
+		return error(400, parseError.message);
 	}
 
 	let partData;
