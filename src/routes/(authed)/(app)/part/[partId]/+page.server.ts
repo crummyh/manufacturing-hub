@@ -3,9 +3,9 @@ import { requireUser } from '$lib/server/auth';
 import { db } from '$lib/server/db';
 import { part } from '$lib/server/db/schema';
 import { eq } from 'drizzle-orm';
+import z from 'zod';
 
 import type { PageServerLoad } from './$types';
-import z from 'zod';
 
 export const load: PageServerLoad = async ({ params, locals, url }) => {
 	requireUser(locals, url.hostname);

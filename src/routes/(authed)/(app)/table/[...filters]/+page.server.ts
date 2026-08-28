@@ -60,8 +60,8 @@ export const load: PageServerLoad = async () => {
 		// 			)
 		// 		: undefined;
 
-    const parts = await db.query.part.findMany({
-      orderBy: (t, { desc }) => desc(t.name),
+		const parts = await db.query.part.findMany({
+			orderBy: (t, { desc }) => desc(t.name),
 			columns: {
 				id: true,
 				name: true,
@@ -99,8 +99,8 @@ export const load: PageServerLoad = async () => {
 						}
 					}
 				}
-      }
-    });
+			}
+		});
 
 		const states = await db
 			.select({
@@ -125,7 +125,7 @@ export const load: PageServerLoad = async () => {
 
 const setStateSchema = z.object({
 	partId: z.nanoid(),
-  newStateId: z.nanoid(),
+	newStateId: z.nanoid()
 });
 
 export const actions: Actions = {

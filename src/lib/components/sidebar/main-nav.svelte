@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Folder, SquareKanban, Table, type LucideProps } from '@lucide/svelte';
+	import { Bolt, Cog, Folder, ListOrdered, type LucideProps } from '@lucide/svelte';
 	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
 	import type { RouteId } from '$app/types';
@@ -12,32 +12,33 @@
 		name: string;
 		url: RouteId;
 		icon: Component<LucideProps>;
-		order: number;
 	}[] = [
 		{
-			name: 'Overview',
-			url: '/(authed)/(app)/overview',
-			icon: SquareKanban,
-			order: 1
-		},
-		{
-			name: 'Table',
-			url: '/(authed)/(app)/table',
-			icon: Table,
-			order: 2
+			name: 'Parts',
+			url: '/(authed)/(app)/parts',
+			icon: Bolt
 		},
 		{
 			name: 'Projects',
 			url: '/(authed)/(app)/projects',
-			icon: Folder,
-			order: 3
+			icon: Folder
+		},
+		{
+			name: 'Steps',
+			url: '/(authed)/(app)/steps',
+			icon: ListOrdered
+		},
+		{
+			name: 'Setup',
+			url: '/(authed)/(app)/setup',
+			icon: Cog
 		}
 	];
 </script>
 
 <Sidebar.Group class="group-data-[collapsible=icon]:hidden">
 	<Sidebar.Menu>
-		{#each navItem as item (item.order)}
+		{#each navItem as item (item.name)}
 			<Sidebar.MenuItem>
 				<Sidebar.MenuButton isActive={page.route.id === item.url}>
 					{#snippet child({ props })}
