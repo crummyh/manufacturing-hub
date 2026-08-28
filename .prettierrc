@@ -6,10 +6,12 @@
 	"plugins": [
 		"prettier-plugin-svelte",
 		"prettier-plugin-tailwindcss",
-		"@trivago/prettier-plugin-sort-imports"
+		"@ianvs/prettier-plugin-sort-imports"
 	],
-	"tailwindStylesheet": "./src/routes/layout.css",
-	"overrides": [
+  "importOrder": ["^@core/(.*)$", "", "^[./]"],
+  "importOrderTypeScriptVersion": "5.0.0",
+  "tailwindStylesheet": "./src/routes/layout.css",
+  "overrides": [
 		{
 			"files": "*.svelte",
 			"options": {
