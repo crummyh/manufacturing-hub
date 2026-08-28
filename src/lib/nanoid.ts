@@ -10,8 +10,3 @@ export function defaultNanoid() {
 
 // A generator for nanoids
 export const genDefaultNanoid = () => defaultNanoid();
-
-// Custom zod string format
-export const zNanoid = z.stringFormat('nanoid', (val) => {
-	return /^[A-Za-z0-9_-]{21}$/.test(val);
-});

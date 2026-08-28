@@ -1,34 +1,33 @@
-import { zNanoid } from '$lib/nanoid';
 import { createInsertSchema, createSelectSchema, createUpdateSchema } from 'drizzle-zod';
-import type z from 'zod';
+import z from 'zod';
 
 import { part, partStep, project, state, step, template, templateStep } from './db/schema';
 
 // Parts
 
 export const partSelectSchema = createSelectSchema(part, {
-	id: zNanoid,
+	id: z.nanoid(),
 	name: (schema) => schema.max(128).min(1),
 	quantity: (schema) => schema.max(4786).min(0),
-	stateId: zNanoid.optional().nullable(),
-	projectId: zNanoid.optional().nullable(),
-	currentStepId: zNanoid.optional().nullable()
+	stateId: z.nanoid().optional().nullable(),
+	projectId: z.nanoid().optional().nullable(),
+	currentStepId: z.nanoid().optional().nullable()
 });
 
 export const partInsertSchema = createInsertSchema(part, {
 	name: (schema) => schema.max(128).min(1),
 	quantity: (schema) => schema.max(4786).min(0),
-	stateId: zNanoid.optional().nullable(),
-	projectId: zNanoid.optional().nullable(),
-	currentStepId: zNanoid.optional().nullable()
+	stateId: z.nanoid().optional().nullable(),
+	projectId: z.nanoid().optional().nullable(),
+	currentStepId: z.nanoid().optional().nullable()
 });
 
 export const partUpdateSchema = createUpdateSchema(part, {
 	name: (schema) => schema.max(128).min(1),
 	quantity: (schema) => schema.max(4786).min(0),
-	stateId: zNanoid.optional().nullable(),
-	projectId: zNanoid.optional().nullable(),
-	currentStepId: zNanoid.optional().nullable()
+	stateId: z.nanoid().optional().nullable(),
+	projectId: z.nanoid().optional().nullable(),
+	currentStepId: z.nanoid().optional().nullable()
 });
 
 export type PartSelect = z.infer<typeof partSelectSchema>;
@@ -42,7 +41,7 @@ export type PartUpdateSchema = typeof partUpdateSchema;
 // Projects
 
 export const projectSelectSchema = createSelectSchema(project, {
-	id: zNanoid,
+	id: z.nanoid(),
 	name: (schema) => schema.max(128).min(1)
 });
 
@@ -65,7 +64,7 @@ export type ProjectUpdateSchema = typeof projectUpdateSchema;
 // States
 
 export const stateSelectSchema = createSelectSchema(state, {
-	id: zNanoid,
+	id: z.nanoid(),
 	name: (schema) => schema.max(128).min(1)
 });
 
@@ -88,7 +87,7 @@ export type StateUpdateSchema = typeof stateUpdateSchema;
 // Steps
 
 export const stepSelectSchema = createSelectSchema(step, {
-	id: zNanoid,
+	id: z.nanoid(),
 	name: (schema) => schema.max(128).min(1)
 });
 
@@ -111,22 +110,22 @@ export type StepUpdateSchema = typeof stepUpdateSchema;
 // Part Steps
 
 export const partStepSelectSchema = createSelectSchema(partStep, {
-	id: zNanoid,
-	partId: zNanoid,
-	stepId: zNanoid,
+	id: z.nanoid(),
+	partId: z.nanoid(),
+	stepId: z.nanoid(),
 	order: (schema) => schema.max(256).min(0)
 });
 
 export const partStepInsertSchema = createInsertSchema(partStep, {
-	partId: zNanoid,
-	stepId: zNanoid,
+	partId: z.nanoid(),
+	stepId: z.nanoid(),
 	order: (schema) => schema.max(256).min(0),
 	completedAt: (schema) => schema.max(new Date())
 });
 
 export const partStepUpdateSchema = createUpdateSchema(partStep, {
-	partId: zNanoid.optional(),
-	stepId: zNanoid.optional(),
+	partId: z.nanoid().optional(),
+	stepId: z.nanoid().optional(),
 	order: (schema) => schema.max(256).min(0),
 	completedAt: (schema) => schema.max(new Date())
 });
@@ -142,7 +141,7 @@ export type PartStepUpdateSchema = typeof partStepUpdateSchema;
 // Templates
 
 export const templateSelectSchema = createSelectSchema(template, {
-	id: zNanoid,
+	id: z.nanoid(),
 	name: (schema) => schema.max(128).min(1)
 });
 
@@ -165,21 +164,21 @@ export type TemplateUpdateSchema = typeof templateUpdateSchema;
 // Template Steps
 
 export const templateStepSelectSchema = createSelectSchema(templateStep, {
-	id: zNanoid,
-	templateId: zNanoid,
-	stepId: zNanoid,
+	id: z.nanoid(),
+	templateId: z.nanoid(),
+	stepId: z.nanoid(),
 	order: (schema) => schema.max(256).min(0)
 });
 
 export const templateStepInsertSchema = createInsertSchema(templateStep, {
-	templateId: zNanoid,
-	stepId: zNanoid,
+	templateId: z.nanoid(),
+	stepId: z.nanoid(),
 	order: (schema) => schema.max(256).min(0)
 });
 
 export const templateStepUpdateSchema = createUpdateSchema(templateStep, {
-	templateId: zNanoid.optional(),
-	stepId: zNanoid.optional(),
+	templateId: z.nanoid().optional(),
+	stepId: z.nanoid().optional(),
 	order: (schema) => schema.max(256).min(0)
 });
 

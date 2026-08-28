@@ -1,5 +1,4 @@
 import { fail, type Action } from '@sveltejs/kit';
-import { zNanoid } from '$lib/nanoid';
 import { eq } from 'drizzle-orm';
 import { generateNKeysBetween } from 'fractional-indexing';
 import { superValidate } from 'sveltekit-superforms';
@@ -14,7 +13,7 @@ import { partInsertSchema } from './schema.zod';
 
 export const newPartSchema = partInsertSchema.extend({
 	critical: boolean().default(false),
-	steps: zNanoid.array()
+	steps: z.nanoid().array()
 });
 
 export type NewPart = z.infer<typeof newPartSchema>;

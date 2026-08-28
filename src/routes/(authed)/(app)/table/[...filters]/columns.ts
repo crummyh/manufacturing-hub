@@ -9,7 +9,7 @@ import DataTableProject from './data-table-project.svelte';
 import DataTableState from './data-table-state.svelte';
 
 type PartData = {
-	id: number;
+	id: string;
 	name: string;
 	quantity: number;
 	critical: boolean;
@@ -20,11 +20,11 @@ type PartData = {
 		image: string | null;
 	} | null;
 	project: {
-		id: number;
+		id: string;
 		name: string;
 	} | null;
 	state: {
-		id: number;
+		id: string;
 		name: string;
 	} | null;
 	currentStep: {
