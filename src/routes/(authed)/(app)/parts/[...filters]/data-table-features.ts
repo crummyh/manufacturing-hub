@@ -3,11 +3,12 @@ import {
 	columnFilteringFeature,
 	createFilteredRowModel,
 	createPaginatedRowModel,
+	createSortedRowModel,
 	metaHelper,
 	rowPaginationFeature,
 	rowSelectionFeature,
 	rowSortingFeature,
-	sortFn_alphanumeric,
+  sortFn_alphanumeric,
 	sortFn_text,
 	tableFeatures,
 	type FilterFn,
@@ -53,9 +54,10 @@ export const features = tableFeatures({
 	rowSelectionFeature,
 	rowSortingFeature,
 	filteredRowModel: createFilteredRowModel(),
-	paginatedRowModel: createPaginatedRowModel(),
+  paginatedRowModel: createPaginatedRowModel(),
+	sortedRowModel: createSortedRowModel(),
 	filterFns: { fuzzy: fuzzyFilter },
-	sortFns: { alphanumeric: sortFn_alphanumeric, fuzzy: fuzzySort },
+	sortFns: { alphanumeric: sortFn_alphanumeric, text: sortFn_text, fuzzy: fuzzySort },
 	filterMeta: metaHelper<FuzzyFilterMeta>()
 });
 

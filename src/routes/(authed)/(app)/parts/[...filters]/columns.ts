@@ -1,12 +1,15 @@
-import { createColumnHelper, renderComponent } from '@tanstack/svelte-table';
+import { createColumnHelper, renderComponent, renderSnippet } from '@tanstack/svelte-table';
 
 import DataTableActions from './data-table-actions.svelte';
 import DataTableAssignee from './data-table-assignee.svelte';
 import DataTableCheckbox from './data-table-checkbox.svelte';
 import { type DataTableFeatures } from './data-table-features';
-import DataTableNameButton from './data-table-name-button.svelte';
+import DataTableSortButton from './data-table-sort-button.svelte';
 import DataTableProject from './data-table-project.svelte';
 import DataTableState from './data-table-state.svelte';
+import { ArrowDown01Icon, ArrowDownZAIcon, ArrowUp10Icon, ArrowUpAZIcon } from '@lucide/svelte';
+import { createRawSnippet } from 'svelte';
+import { resolve } from '$app/paths';
 
 type PartData = {
 	id: string;
@@ -38,7 +41,7 @@ const columnHelper = createColumnHelper<DataTableFeatures, PartData>();
 
 export const columns = columnHelper.columns([
 	columnHelper.display({
-		id: 'select',
+    id: 'select',
 		header: ({ table }) =>
 			renderComponent(DataTableCheckbox, {
 				checked: table.getIsAllPageRowsSelected(),
@@ -57,15 +60,42 @@ export const columns = columnHelper.columns([
 
 	columnHelper.accessor('name', {
 		header: ({ column }) =>
-			renderComponent(DataTableNameButton, {
-				onclick: column.getToggleSortingHandler()
-			}),
-		filterFn: 'fuzzy'
+      renderComponent(DataTableSortButton, {
+        label: "Name",
+        onclick: column.getToggleSortingHandler(),
+        sortDir: column.getIsSorted(),
+        AscIcon: ArrowUpAZIcon,
+        DescIcon: ArrowDownZAIcon
+      }),
+      cell: ({ row }) => {
+            const nameLinkSnippet = createRawSnippet<[{ name: string, id: string }]>(
+              (getProps) => {
+                const { name, id } = getProps();
+                return {
+                  render: () =>
+                    `<a href="${resolve("/part/[partId]", { partId: id })}" class="hover:underline">${name}</div>`,
+                };
+              }
+            );
+
+        return renderSnippet(nameLinkSnippet, {
+          name: row.original.name,
+          id: row.original.id
+        });
+      },
+        filterFn: 'fuzzy'
 	}),
 
 	columnHelper.accessor('quantity', {
-		header: 'Quantity'
-	}),
+  	header: ({ column }) =>
+        renderComponent(DataTableSortButton, {
+          label: "Quantity",
+          onclick: column.getToggleSortingHandler(),
+          sortDir: column.getIsSorted(),
+          AscIcon: ArrowUp10Icon,
+          DescIcon: ArrowDown01Icon
+        }),
+  }),
 
 	columnHelper.accessor('critical', {
 		header: 'Critical',
