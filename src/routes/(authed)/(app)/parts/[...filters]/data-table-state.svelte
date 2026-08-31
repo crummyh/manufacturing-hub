@@ -4,11 +4,11 @@
 	import { toast } from 'svelte-sonner';
 
 	interface Props {
-		partId: number;
-		id?: number;
+		partId: string;
+		id?: string;
 		name?: string;
 		states: {
-			id: number;
+			id: string;
 			name: string;
 		}[];
 	}

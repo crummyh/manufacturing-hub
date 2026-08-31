@@ -1,15 +1,15 @@
+import { ArrowDown01Icon, ArrowDownZAIcon, ArrowUp10Icon, ArrowUpAZIcon } from '@lucide/svelte';
 import { createColumnHelper, renderComponent, renderSnippet } from '@tanstack/svelte-table';
+import { resolve } from '$app/paths';
+import { createRawSnippet } from 'svelte';
 
 import DataTableActions from './data-table-actions.svelte';
 import DataTableAssignee from './data-table-assignee.svelte';
 import DataTableCheckbox from './data-table-checkbox.svelte';
 import { type DataTableFeatures } from './data-table-features';
-import DataTableSortButton from './data-table-sort-button.svelte';
 import DataTableProject from './data-table-project.svelte';
+import DataTableSortButton from './data-table-sort-button.svelte';
 import DataTableState from './data-table-state.svelte';
-import { ArrowDown01Icon, ArrowDownZAIcon, ArrowUp10Icon, ArrowUpAZIcon } from '@lucide/svelte';
-import { createRawSnippet } from 'svelte';
-import { resolve } from '$app/paths';
 
 type PartData = {
 	id: string;
@@ -41,7 +41,7 @@ const columnHelper = createColumnHelper<DataTableFeatures, PartData>();
 
 export const columns = columnHelper.columns([
 	columnHelper.display({
-    id: 'select',
+		id: 'select',
 		header: ({ table }) =>
 			renderComponent(DataTableCheckbox, {
 				checked: table.getIsAllPageRowsSelected(),
@@ -60,42 +60,40 @@ export const columns = columnHelper.columns([
 
 	columnHelper.accessor('name', {
 		header: ({ column }) =>
-      renderComponent(DataTableSortButton, {
-        label: "Name",
-        onclick: column.getToggleSortingHandler(),
-        sortDir: column.getIsSorted(),
-        AscIcon: ArrowUpAZIcon,
-        DescIcon: ArrowDownZAIcon
-      }),
-      cell: ({ row }) => {
-            const nameLinkSnippet = createRawSnippet<[{ name: string, id: string }]>(
-              (getProps) => {
-                const { name, id } = getProps();
-                return {
-                  render: () =>
-                    `<a href="${resolve("/part/[partId]", { partId: id })}" class="hover:underline">${name}</div>`,
-                };
-              }
-            );
+			renderComponent(DataTableSortButton, {
+				label: 'Name',
+				onclick: column.getToggleSortingHandler(),
+				sortDir: column.getIsSorted(),
+				AscIcon: ArrowUpAZIcon,
+				DescIcon: ArrowDownZAIcon
+			}),
+		cell: ({ row }) => {
+			const nameLinkSnippet = createRawSnippet<[{ name: string; id: string }]>((getProps) => {
+				const { name, id } = getProps();
+				return {
+					render: () =>
+						`<a href="${resolve('/part/[partId]', { partId: id })}" class="hover:underline">${name}</div>`
+				};
+			});
 
-        return renderSnippet(nameLinkSnippet, {
-          name: row.original.name,
-          id: row.original.id
-        });
-      },
-        filterFn: 'fuzzy'
+			return renderSnippet(nameLinkSnippet, {
+				name: row.original.name,
+				id: row.original.id
+			});
+		},
+		filterFn: 'fuzzy'
 	}),
 
 	columnHelper.accessor('quantity', {
-  	header: ({ column }) =>
-        renderComponent(DataTableSortButton, {
-          label: "Quantity",
-          onclick: column.getToggleSortingHandler(),
-          sortDir: column.getIsSorted(),
-          AscIcon: ArrowUp10Icon,
-          DescIcon: ArrowDown01Icon
-        }),
-  }),
+		header: ({ column }) =>
+			renderComponent(DataTableSortButton, {
+				label: 'Quantity',
+				onclick: column.getToggleSortingHandler(),
+				sortDir: column.getIsSorted(),
+				AscIcon: ArrowUp10Icon,
+				DescIcon: ArrowDown01Icon
+			})
+	}),
 
 	columnHelper.accessor('critical', {
 		header: 'Critical',
