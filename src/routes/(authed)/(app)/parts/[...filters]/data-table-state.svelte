@@ -15,12 +15,10 @@
 
 	let { id, name, states, partId }: Props = $props();
 
-	// svelte-ignore state_referenced_locally
-	let idString = $state(id?.toString());
 
 	async function valueChange(value: string) {
-		const oldValue = idString;
-		idString = value;
+		const oldValue = id;
+		id = value;
 		name = states.find((s) => s.id.toString() === value)?.name;
 
 		const formData = new FormData();
@@ -34,23 +32,23 @@
 			});
 			if (!response.ok) {
 				toast.error(`Failed to set state: ${await response.text()}`);
-				idString = oldValue;
+				id = oldValue;
 			}
 		} catch (e) {
 			const msg = getErrorMessage(e);
 			toast.error(`Failed to set state: ${msg}`);
-			idString = oldValue;
+			id = oldValue;
 		}
 	}
 </script>
 
-<Select.Root type="single" bind:value={idString} onValueChange={valueChange}>
+<Select.Root type="single" bind:value={id} onValueChange={valueChange}>
 	<Select.Trigger class="w-full">
 		{name}
 	</Select.Trigger>
 	<Select.Content>
 		{#each states as state (state.id)}
-			<Select.Item value={state.id.toString()}>{state.name}</Select.Item>
+			<Select.Item value={state.id}>{state.name}</Select.Item>
 		{/each}
 	</Select.Content>
 </Select.Root>

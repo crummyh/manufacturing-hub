@@ -21,8 +21,6 @@
 		variant = 'ghost',
 		...restProps
 	}: Props = $props();
-
-	// let currentSort = $derived(browser ? getSortDir() : false);
 </script>
 
 <div class="items-center flex gap-0.5">

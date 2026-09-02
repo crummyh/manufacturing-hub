@@ -67,6 +67,6 @@ export type DataTableFeatures = typeof features;
 declare module '@tanstack/svelte-table' {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	interface TableMeta<TFeatures extends TableFeatures, TData extends RowData> {
-		states: { id: number; name: string }[];
+		states: { id: string; name: string }[];
 	}
 }
