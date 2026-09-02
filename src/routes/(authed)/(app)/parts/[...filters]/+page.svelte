@@ -19,12 +19,7 @@
 				</Breadcrumb.Item>
 			</Breadcrumb.List>
 		</Breadcrumb.Root>
-		<BasicHeaderButtons
-			form={data.partCreationForm}
-			projects={data.projects}
-			steps={data.steps}
-			templates={data.templates}
-		/>
+		<BasicHeaderButtons data={data.navData} />
 	</div>
 </PageHeader>
 

@@ -110,12 +110,10 @@ export const load: PageServerLoad = async () => {
 			.from(state)
 			.orderBy(state.order);
 
-		const navButtonsData = await basicNavButtonsData();
-
 		return {
 			parts,
 			states,
-			...navButtonsData
+			navData: basicNavButtonsData()
 		};
 	} catch (e) {
 		console.error(getErrorMessage(e));

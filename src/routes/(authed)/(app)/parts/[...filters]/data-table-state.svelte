@@ -15,7 +15,6 @@
 
 	let { id, name, states, partId }: Props = $props();
 
-
 	async function valueChange(value: string) {
 		const oldValue = id;
 		id = value;

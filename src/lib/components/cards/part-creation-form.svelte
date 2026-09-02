@@ -28,13 +28,12 @@
 	interface Props {
 		form: SuperValidated<InferIn<NewPartSchemaClient>>;
 		projects: Projects;
-		open: boolean;
 		steps: Steps;
 		templates: Templates;
+		open: boolean;
 	}
 
-	// eslint-disable-next-line no-useless-assignment
-	let { form: initialForm, projects, steps, open = $bindable(), templates }: Props = $props();
+	let { form: initialForm, projects, steps, templates, open = $bindable() }: Props = $props();
 
 	// svelte-ignore state_referenced_locally
 	const form = superForm(initialForm, {

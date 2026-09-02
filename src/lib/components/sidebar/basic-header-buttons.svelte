@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Plus, RotateCw } from '@lucide/svelte';
 	import { invalidateAll } from '$app/navigation';
-	import PartCreation from '$lib/components/cards/part-creation.svelte';
+	import PartCreationDialog from '$lib/components/cards/part-creation-dialog.svelte';
 	import { Button, buttonVariants } from '$lib/components/ui/button';
 	import * as Dialog from '$lib/components/ui/dialog/index.js';
 	import type { NewPartSchemaClient } from '$lib/schemas/forms';
@@ -17,13 +17,15 @@
 	}
 
 	interface Props {
-		form: SuperValidated<InferIn<NewPartSchemaClient>>;
-		projects: Projects;
-		steps: Steps;
-		templates: Templates;
+		data: Promise<{
+			form: SuperValidated<InferIn<NewPartSchemaClient>>;
+			projects: Projects;
+			steps: Steps;
+			templates: Templates;
+		}>;
 	}
 
-	let { projects, form, steps, templates }: Props = $props();
+	let { data }: Props = $props();
 
 	let refreshing = $state(false);
 	let creatingPart = $state(false);
@@ -34,7 +36,7 @@
 		<Dialog.Trigger class={buttonVariants()}>
 			<Plus />New Part
 		</Dialog.Trigger>
-		<PartCreation {projects} {form} bind:open={creatingPart} {steps} {templates} />
+		<PartCreationDialog {data} bind:open={creatingPart} />
 	</Dialog.Root>
 	<Button variant="outline" onclick={refreshDate} disabled={refreshing}>
 		<RotateCw class={[refreshing && 'animate-spin']} />

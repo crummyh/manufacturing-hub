@@ -46,10 +46,12 @@ export async function getFirstState() {
 }
 
 export async function basicNavButtonsData() {
-	const projects = projectSelectSchema.array().parse(await db.select().from(project));
-	const steps = stepSelectSchema.array().parse(await db.select().from(step));
-	const templates = await getTemplatesWithSteps();
-	const partCreationForm = await superValidate(zod4(newPartSchema));
+	const [projects, steps, templates, form] = await Promise.all([
+		db.select().from(project),
+		db.select().from(step),
+		getTemplatesWithSteps(),
+		superValidate(zod4(newPartSchema))
+	]);
 
-	return { projects, steps, templates, partCreationForm };
+	return { projects, steps, templates, form };
 }

@@ -10,7 +10,7 @@
 		columns: ColumnDef<DataTableFeatures, TData>[];
 		data: TData[];
 		states: {
-			id: number;
+			id: string;
 			name: string;
 		}[];
 	};
